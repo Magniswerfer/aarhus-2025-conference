@@ -22,25 +22,26 @@ jobs:
       - name: Build static site
         run: |
           deno task build
-          echo "Listing build output directories:"
-          ls -la
-          echo "Listing _fresh directory:"
+          echo "Build completed. Listing files:"
           ls -la _fresh
 
       - name: Create index.html
         run: |
-          echo '<!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="utf-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Aarhus 2025</title>
-              <link rel="stylesheet" href="styles.css">
-            </head>
-            <body>
-              <script type="module" src="main.js"></script>
-            </body>
-          </html>' > _fresh/index.html
+          cat > _fresh/index.html << 'EOL'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Aarhus 2025 Conference</title>
+            <link rel="stylesheet" href="styles.css">
+          </head>
+          <body>
+            <div id="root"></div>
+            <script type="module" src="main.js"></script>
+          </body>
+          </html>
+          EOL
 
       - name: Checkout target repository
         uses: actions/checkout@v4
@@ -54,7 +55,8 @@ jobs:
           rm -rf gh-pages/*
           cp -r _fresh/* gh-pages/
           if [ -d "static" ]; then
-            cp -r static/* gh-pages/
+            mkdir -p gh-pages/static
+            cp -r static/* gh-pages/static/
           fi
           echo "Files in gh-pages directory:"
           ls -la gh-pages
