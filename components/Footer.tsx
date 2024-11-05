@@ -41,7 +41,7 @@ export default function Footer() {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
               {footerDates.map((item) => (
                 <div class="text-sm">
-                  <span class="font-medium">{item.date}</span>
+                  <span class="font-bold">{item.date}</span>
                   <br />
                   <span class="text-gray-200">{item.description}</span>
                 </div>

@@ -1,7 +1,7 @@
 
 export default function XBreaker() {
   return (
-    <section className="bg-black h-screen max-h-[20rem] relative flex items-center justify-center">
+    <section className="bg-black h-screen max-h-[15rem] relative flex items-center justify-center">
       <div className="container mx-auto flex items-center justify-center gap-4 lg:gap-8">
         {/* Left text group */}
         <div className="flex flex-col lg:flex-row items-end text-right">
