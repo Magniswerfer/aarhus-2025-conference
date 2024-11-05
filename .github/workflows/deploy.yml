@@ -22,10 +22,10 @@ jobs:
       - name: Build static site
         run: |
           deno task build
-          echo "Build completed. Listing files:"
+          echo "Build completed. Listing _fresh directory:"
           ls -la _fresh
 
-      - name: Generate HTML
+      - name: Create index.html
         run: |
           cat > _fresh/index.html << 'EOL'
           <!DOCTYPE html>
@@ -34,32 +34,11 @@ jobs:
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Aarhus 2025 Conference</title>
-            <link rel="stylesheet" href="styles.css">
-            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-            <script>
-              // Preload main bundles
-              const files = ['main.js', 'chunk-ULR4URCE.js', 'chunk-YPYUOXKU.js'];
-              files.forEach(file => {
-                const preloadLink = document.createElement('link');
-                preloadLink.rel = 'modulepreload';
-                preloadLink.href = './' + file;
-                document.head.appendChild(preloadLink);
-              });
-            </script>
+            <link rel="stylesheet" href="/static/styles.css">
           </head>
           <body>
-            <div id="fresh-app" class="min-h-screen flex flex-col"></div>
-            <script id="fresh-client-data" type="application/json">
-              {"url":"/"}
-            </script>
-            <script type="module">
-              import { BrowserRouter } from "./chunk-ULR4URCE.js";
-              import { render } from "./chunk-YPYUOXKU.js";
-              import { start } from "./main.js";
-              
-              const root = document.getElementById("fresh-app");
-              start(root);
-            </script>
+            <div id="root"></div>
+            <script type="module" src="main.js"></script>
           </body>
           </html>
           EOL
@@ -74,17 +53,15 @@ jobs:
       - name: Copy built files
         run: |
           rm -rf gh-pages/*
+          # Copy Fresh build files
           cp -r _fresh/* gh-pages/
-          if [ -d "static" ]; then
-            mkdir -p gh-pages/static
-            cp -r static/* gh-pages/static/
-          fi
-          if [ -d "images" ]; then
-            mkdir -p gh-pages/images
-            cp -r images/* gh-pages/images/
-          fi
+          # Create static directory and copy static files
+          mkdir -p gh-pages/static
+          cp -r static/* gh-pages/static/
           echo "Files in gh-pages directory:"
           ls -la gh-pages
+          echo "Files in gh-pages/static directory:"
+          ls -la gh-pages/static
 
       - name: Deploy to GitHub Pages
         run: |
