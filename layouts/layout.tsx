@@ -1,3 +1,4 @@
+// layouts/layout.tsx
 import { Head } from "$fresh/runtime.ts";
 import Navigation from "../islands/Navigation.tsx";
 import Footer from "../components/Footer.tsx";
@@ -16,7 +17,7 @@ export default function Layout({ children, title = "Aarhus 2025 Conference" }: L
       </Head>
       <div class="min-h-screen flex flex-col">
         <Navigation />
-        <main class="flex-grow">
+        <main class="flex-1">
           {children}
         </main>
         <Footer />
@@ -24,3 +25,4 @@ export default function Layout({ children, title = "Aarhus 2025 Conference" }: L
     </>
   );
 }
+

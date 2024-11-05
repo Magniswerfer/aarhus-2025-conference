@@ -1,6 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../layouts/layout.tsx";
-import History from "../islands/History.tsx";
+import ConferenceDates from "../components/ConferenceDates.tsx";
 
 export default function CallForContributionsPage() {
   return (
@@ -23,7 +23,6 @@ export default function CallForContributionsPage() {
             </p>
           </div>
         </div>
-        <History />
 
         {/* Main Content */}
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -35,110 +34,56 @@ export default function CallForContributionsPage() {
               also of interest.
             </p>
 
-            {/* Papers Section */}
+            {/* Contribution Types */}
             <section class="mb-16">
-              <h2 class="text-3xl font-bold text-aarhus-red mb-6">Papers</h2>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <p class="mb-4">
-                  Papers are expected to be influential throughout the next decennium by addressing fundamental issues 
-                  and proposing new agendas or in other ways offering research contributions with the potential for 
-                  long-lasting impact.
-                </p>
-                <h3 class="font-semibold mb-2">Submissions will be evaluated based on:</h3>
-                <ul class="list-disc ml-6 mb-4">
-                  <li>Strong contribution to theory and practice as regards Computing (X) Crisis</li>
-                  <li>Potential for long-lasting impact</li>
-                  <li>New perspectives</li>
-                </ul>
-                <div class="border-t border-gray-200 pt-4 mt-4">
-                  <h3 class="font-semibold mb-2">Submission Guidelines:</h3>
-                  <ul class="list-disc ml-6">
-                    <li>Short papers: Below 5,000 words</li>
-                    <li>Long papers: 5,000 - 12,000 words</li>
-                    <li>Papers exceeding 12,000 words should have very good reasons</li>
-                    <li>Use the ACM Conference Proceedings Primary Article template</li>
-                    <li>Single-column format for the reviewing phase</li>
-                    <li>Submissions must be anonymized</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
+              <h2 class="text-3xl font-bold text-aarhus-red mb-6">Submission Types</h2>
+              <p class="mb-6">Computing (X) Crisis calls for the following types of contributions:</p>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="/call-for-contributions/papers" class="block group">
+                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 ">
+                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">Papers</h3>
+                    <p class="text-gray-600">Full research papers addressing fundamental issues and proposing new agendas with potential for long-lasting impact.</p>
+                  </div>
+                </a>
 
-            {/* Critiques Section */}
-            <section class="mb-16">
-              <h2 class="text-3xl font-bold text-aarhus-red mb-6">Critiques</h2>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <p class="mb-4">
-                  The Critique submission category establishes a forum for critical and insightful perspectives that 
-                  challenge the status quo of computing. Submissions must address the conference theme.
-                </p>
-                <h3 class="font-semibold mb-2">Submission Formats Include:</h3>
-                <ul class="list-disc ml-6 mb-4">
-                  <li>Essays</li>
-                  <li>Creative writing (manifestos, stories, fictions)</li>
-                  <li>Pictorial</li>
-                  <li>Artwork (software, video games, audio-visual art)</li>
-                  <li>Theoretical or analytical articles</li>
-                  <li>Provotypes</li>
-                  <li>Artifacts with networked, generative, and/or programmed elements</li>
-                </ul>
-                <div class="border-t border-gray-200 pt-4 mt-4">
-                  <h3 class="font-semibold mb-2">Evaluation Criteria:</h3>
-                  <ul class="list-disc ml-6">
-                    <li>Ability to critically examine a topic, inspire, and/or spark debate and reflection</li>
-                    <li>Relevance to the conference theme: Computing (X) Crisis</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
+                <a href="/call-for-contributions/critiques" class="block group">
+                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 ">
+                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">Critiques</h3>
+                    <p class="text-gray-600">Critical and insightful perspectives challenging the status quo of computing, including essays, creative writing, and artwork.</p>
+                  </div>
+                </a>
 
-            {/* Work-in-Progress Section */}
-            <section class="mb-16">
-              <h2 class="text-3xl font-bold text-aarhus-red mb-6">Work-in-Progress</h2>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <p class="mb-4">
-                  The Work-in-Progress category is an opportunity to present ideas in the making and tentative findings.
-                </p>
-                <h3 class="font-semibold mb-2">Submission Guidelines:</h3>
-                <ul class="list-disc ml-6">
-                  <li>Maximum 2,500 words (excluding images, figures and references)</li>
-                  <li>Use the ACM Conference Proceedings Primary Article template</li>
-                  <li>Single-column format for the reviewing phase</li>
-                  <li>Submissions must be anonymized</li>
-                </ul>
-              </div>
-            </section>
+                <a href="/call-for-contributions/workshops" class="block group">
+                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 ">
+                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">Workshops</h3>
+                    <p class="text-gray-600">Interactive sessions for debate and co-development of ideas related to Computing (X) Crisis.</p>
+                  </div>
+                </a>
 
-            {/* Important Dates */}
-            <section>
-              <h2 class="text-3xl font-bold text-aarhus-red mb-6">Important Dates</h2>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-gray-50 p-4 rounded">
-                  <h3 class="font-semibold mb-2">20th February 2025</h3>
-                  <p>Deadline Papers, Critiques</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded">
-                  <h3 class="font-semibold mb-2">6th March 2025</h3>
-                  <p>Deadline, Workshops</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded">
-                  <h3 class="font-semibold mb-2">3rd April 2025</h3>
-                  <p>Notification of acceptance, Workshops</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded">
-                  <h3 class="font-semibold mb-2">29th April 2025</h3>
-                  <p>Notification of acceptance, Papers and Critiques</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded">
-                  <h3 class="font-semibold mb-2">6th May 2025</h3>
-                  <p>Deadline, Work in Progress</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded">
-                  <h3 class="font-semibold mb-2">12th June 2025</h3>
-                  <p>Notification of acceptance: Work in Progress</p>
-                </div>
+                <a href="/call-for-contributions/work-in-progress" class="block group">
+                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 ">
+                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">Work-in-Progress</h3>
+                    <p class="text-gray-600">Presentations of emerging ideas and tentative findings that engage with the conference theme.</p>
+                  </div>
+                </a>
+                
+                <a href="/call-for-contributions/demos" class="block group">
+                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 ">
+                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">Demos</h3>
+                    <p class="text-gray-600">Demonstrations of, e.g., novel interactions techniques, activitism, etc.</p>
+                  </div>
+                </a>
+
               </div>
             </section>
+            
+            {/* Important Dates using component */}
+            <ConferenceDates 
+              displayStyle="grid"
+              class="mb-16"
+              title="Important Dates"
+            />
           </div>
         </div>
       </Layout>

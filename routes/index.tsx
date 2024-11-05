@@ -3,6 +3,7 @@ import Hero from "../components/Hero.tsx";
 import Layout from "../layouts/layout.tsx";
 import ContentSection from "../components/ContentSection.tsx";
 import XBreaker from "../components/XBreaker.tsx";
+import ConferenceDates from "../components/ConferenceDates.tsx";
 
 export default function Home() {
   return (
@@ -24,7 +25,6 @@ export default function Home() {
           "We call for contributions offering new agendas and perspectives for influencing and responding to ‘Computing (X) Crisis.’ These might centre on alternatives to current directions in computing, offer methodological or theoretical developments, or present new forms of critical or societal engagements and action. With the (X) we invite authors to speculate on potential replacements of the universal X – with, after, in, etc – and on what it means to combine the two words. Current trends in critical research on computing point to areas such as political activism, civic engagement, aesthetics and artistic practices as areas that could fruitfully inform a critical discourse in computing.",
         ]}
       />
-      {/* Other sections */}
     </Layout>
   );
 }

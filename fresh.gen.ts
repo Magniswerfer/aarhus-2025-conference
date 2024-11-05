@@ -7,6 +7,12 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $author_guidelines from "./routes/author-guidelines.tsx";
 import * as $call_for_contributions from "./routes/call-for-contributions.tsx";
+import * as $call_for_contributions_critiques from "./routes/call-for-contributions/critiques.tsx";
+import * as $call_for_contributions_demos from "./routes/call-for-contributions/demos.tsx";
+import * as $call_for_contributions_doctoral_consortium from "./routes/call-for-contributions/doctoral-consortium.tsx";
+import * as $call_for_contributions_papers from "./routes/call-for-contributions/papers.tsx";
+import * as $call_for_contributions_work_in_progress from "./routes/call-for-contributions/work-in-progress.tsx";
+import * as $call_for_contributions_workshops from "./routes/call-for-contributions/workshops.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $organizers from "./routes/organizers.tsx";
@@ -22,6 +28,17 @@ const manifest = {
     "./routes/api/joke.ts": $api_joke,
     "./routes/author-guidelines.tsx": $author_guidelines,
     "./routes/call-for-contributions.tsx": $call_for_contributions,
+    "./routes/call-for-contributions/critiques.tsx":
+      $call_for_contributions_critiques,
+    "./routes/call-for-contributions/demos.tsx": $call_for_contributions_demos,
+    "./routes/call-for-contributions/doctoral-consortium.tsx":
+      $call_for_contributions_doctoral_consortium,
+    "./routes/call-for-contributions/papers.tsx":
+      $call_for_contributions_papers,
+    "./routes/call-for-contributions/work-in-progress.tsx":
+      $call_for_contributions_work_in_progress,
+    "./routes/call-for-contributions/workshops.tsx":
+      $call_for_contributions_workshops,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/organizers.tsx": $organizers,
