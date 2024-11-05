@@ -25,7 +25,7 @@ jobs:
           echo "Build completed. Listing files:"
           ls -la _fresh
 
-      - name: Create index.html
+      - name: Generate HTML
         run: |
           cat > _fresh/index.html << 'EOL'
           <!DOCTYPE html>
@@ -35,10 +35,31 @@ jobs:
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Aarhus 2025 Conference</title>
             <link rel="stylesheet" href="styles.css">
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+            <script>
+              // Preload main bundles
+              const files = ['main.js', 'chunk-ULR4URCE.js', 'chunk-YPYUOXKU.js'];
+              files.forEach(file => {
+                const preloadLink = document.createElement('link');
+                preloadLink.rel = 'modulepreload';
+                preloadLink.href = './' + file;
+                document.head.appendChild(preloadLink);
+              });
+            </script>
           </head>
           <body>
-            <div id="root"></div>
-            <script type="module" src="main.js"></script>
+            <div id="fresh-app" class="min-h-screen flex flex-col"></div>
+            <script id="fresh-client-data" type="application/json">
+              {"url":"/"}
+            </script>
+            <script type="module">
+              import { BrowserRouter } from "./chunk-ULR4URCE.js";
+              import { render } from "./chunk-YPYUOXKU.js";
+              import { start } from "./main.js";
+              
+              const root = document.getElementById("fresh-app");
+              start(root);
+            </script>
           </body>
           </html>
           EOL
@@ -57,6 +78,10 @@ jobs:
           if [ -d "static" ]; then
             mkdir -p gh-pages/static
             cp -r static/* gh-pages/static/
+          fi
+          if [ -d "images" ]; then
+            mkdir -p gh-pages/images
+            cp -r images/* gh-pages/images/
           fi
           echo "Files in gh-pages directory:"
           ls -la gh-pages
