@@ -20,7 +20,28 @@ jobs:
           deno-version: v1.x
 
       - name: Build static site
-        run: deno task build
+        run: |
+          deno task build
+          echo "Build completed. Listing files:"
+          ls -la _fresh
+
+      - name: Create index.html
+        run: |
+          cat > _fresh/index.html << 'EOL'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Aarhus 2025 Conference</title>
+            <link rel="stylesheet" href="styles.css">
+          </head>
+          <body>
+            <div id="root"></div>
+            <script type="module" src="main.js"></script>
+          </body>
+          </html>
+          EOL
 
       - name: Checkout target repository
         uses: actions/checkout@v4
@@ -33,7 +54,12 @@ jobs:
         run: |
           rm -rf gh-pages/*
           cp -r _fresh/* gh-pages/
-          cp -r static/* gh-pages/  # Copy static assets if they exist
+          if [ -d "static" ]; then
+            mkdir -p gh-pages/static
+            cp -r static/* gh-pages/static/
+          fi
+          echo "Files in gh-pages directory:"
+          ls -la gh-pages
 
       - name: Deploy to GitHub Pages
         run: |
@@ -43,4 +69,3 @@ jobs:
           git add .
           git commit -m "Deploy site update"
           git push
-
