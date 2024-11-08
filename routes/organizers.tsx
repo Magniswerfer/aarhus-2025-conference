@@ -73,9 +73,10 @@ const committees: Committee[] = [
     ],
   },
   {
-    title: "Demonstration Chair",
+    title: "Demonstration Chairs",
     members: [
       { name: "Rikke Hagensby Jensen", affiliation: "Aarhus University" },
+      { name: "Michael Wessely", affiliation: "Aarhus University" }
     ],
   },
   {

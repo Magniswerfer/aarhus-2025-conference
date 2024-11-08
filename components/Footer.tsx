@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
           <div>
             <img
-              src="/images/ACM-In-Cooperation_medium.svg"
+              src="/images/ACM-In-Cooperation_medium_BW_homebrew.svg"
               alt="ACM Logo"
               class="h-16"
             />

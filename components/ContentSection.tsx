@@ -59,7 +59,7 @@ export default function ContentSection({
   const TextContent = () => (
     <div className="w-full md:w-1/2">
       {title && (
-        <h2 className="text-3xl md:text-4xl font-roboto-condensed font-normal text-aarhus-red mb-6 md:mb-8">
+        <h2 className="text-3xl md:text-4xl font-roboto-condensed font-bold text-aarhus-red mb-6 md:mb-8">
           {title}
         </h2>
       )}

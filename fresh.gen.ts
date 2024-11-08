@@ -16,6 +16,7 @@ import * as $call_for_contributions_workshops from "./routes/call-for-contributi
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $organizers from "./routes/organizers.tsx";
+import * as $test from "./routes/test.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $History from "./islands/History.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
@@ -42,6 +43,7 @@ const manifest = {
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/organizers.tsx": $organizers,
+    "./routes/test.tsx": $test,
   },
   islands: {
     "./islands/Counter.tsx": $Counter,
