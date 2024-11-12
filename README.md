@@ -1,7 +1,6 @@
-# Fresh project
+# Aarhus2025 Conference Website
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+This is the Fresh / Deno Project for the aarhus2025.org website.
 
 ### Usage
 
