@@ -20,6 +20,7 @@ import * as $test from "./routes/test.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $History from "./islands/History.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
+import * as $XBreaker from "./islands/XBreaker.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -49,6 +50,7 @@ const manifest = {
     "./islands/Counter.tsx": $Counter,
     "./islands/History.tsx": $History,
     "./islands/Navigation.tsx": $Navigation,
+    "./islands/XBreaker.tsx": $XBreaker,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
