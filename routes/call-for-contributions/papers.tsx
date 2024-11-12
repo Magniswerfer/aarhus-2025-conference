@@ -2,6 +2,8 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
+import XBreaker from "../../islands/XBreaker.tsx"
+import PapersCommittee from "../../components/Committees/PapersCommittee.tsx"
 
 export default function PapersPage() {
   const content = [
@@ -65,6 +67,8 @@ export default function PapersPage() {
           imageAlt="Papers illustration"
           imagePosition="right"
         />
+      <XBreaker/>
+      <PapersCommittee/>
       </Layout>
     </>
   );
