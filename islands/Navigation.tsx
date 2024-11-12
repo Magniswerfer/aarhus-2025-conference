@@ -37,7 +37,7 @@ export default function Navigation() {
       dropdownItems: contributionTypes,
     },
     { path: "/author-guidelines", label: "AUTHOR GUIDELINES" },
-    { path: "/organizers", label: "ORGANIZERS" },
+    { path: "/organisers", label: "ORGANISERS" },
   ];
 
   const handleDropdownClick = (e, linkPath) => {

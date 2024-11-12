@@ -35,7 +35,7 @@ export const conferenceDates: ConferenceDate[] = [
   },
   {
     date: "6th March 2025",
-    description: "Deadline, Workshops",
+    description: "Deadline, Workshops, Demo and Work-in-Progress",
   },
   {
     date: "3rd April 2025",
