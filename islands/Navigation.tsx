@@ -5,16 +5,15 @@ export default function Navigation() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const currentPath = globalThis.location ? globalThis.location.pathname : "";
-  
+
   useEffect(() => {
-    // Check if device supports touch
     const checkTouch = () => {
       setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
     };
-    
+
     checkTouch();
     window.addEventListener('touchstart', () => setIsTouchDevice(true), { once: true });
-    
+
     return () => {
       window.removeEventListener('touchstart', () => setIsTouchDevice(true));
     };
@@ -33,7 +32,7 @@ export default function Navigation() {
     { path: "/", label: "HOME" },
     {
       path: "/call-for-contributions",
-      label: "CALL FOR CONTRIBUTIONS", 
+      label: "CALL FOR CONTRIBUTIONS",
       hasDropdown: true,
       dropdownItems: contributionTypes,
     },
@@ -43,7 +42,7 @@ export default function Navigation() {
 
   const handleDropdownClick = (e, linkPath) => {
     if (isTouchDevice) {
-      e.preventDefault();
+      e.stopPropagation(); // Prevent the click from bubbling up
       if (activeDropdown === linkPath) {
         setActiveDropdown(null);
       } else {
@@ -60,7 +59,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav 
+    <nav
       class="relative bg-transparent px-4 md:px-12 py-2"
       onClick={handleClickOutside}
     >
@@ -73,21 +72,32 @@ export default function Navigation() {
         <div class="hidden md:flex absolute inset-0 justify-center">
           <div class="flex items-center space-x-8 font-roboto-condensed">
             {links.map((link) => (
-              <div 
-                key={link.path} 
+              <div
+                key={link.path}
                 class={`relative dropdown-container ${!isTouchDevice ? 'group' : ''}`}
               >
                 {link.hasDropdown ? (
                   <div class="py-4">
-                    <button
-                      onClick={(e) => handleDropdownClick(e, link.path)}
-                      class={`text-black uppercase text-base hover:opacity-90 ${
-                        currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
-                      }`}
-                    >
-                      {link.label}
-                    </button>
-                    <div 
+                    <div class="flex items-center">
+                      <a
+                        href={link.path}
+                        class={`text-black uppercase text-base hover:opacity-90 ${
+                          currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
+                        }`}
+                      >
+                        {link.label}
+                      </a>
+                      <button
+                        onClick={(e) => handleDropdownClick(e, link.path)}
+                        class="ml-1 p-1"
+                        aria-label="Toggle dropdown"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
                       class={`absolute left-0 top-full w-64 bg-white shadow-lg rounded-b-md py-2 z-50 transition-opacity duration-200 ${
                         !isTouchDevice ? 'opacity-0 invisible group-hover:opacity-100 group-hover:visible' :
                         activeDropdown === link.path ? "opacity-100 visible" : "opacity-0 invisible"
