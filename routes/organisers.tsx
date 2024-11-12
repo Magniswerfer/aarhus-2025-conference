@@ -93,14 +93,14 @@ export default function OrganizersPage() {
     <>
       <Head>
         <title>Organisers | Aarhus 2025</title>
-        <meta name="description" content="Meet the organizing committee of the Aarhus 2025 Conference" />
+        <meta name="description" content="Meet the organising committee of the Aarhus 2025 Conference" />
       </Head>
       <Layout>
         {/* Hero Section */}
         <div class="bg-aarhus-red py-20">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-              Organizers
+              Organisers
             </h1>
             <p class="text-xl text-white/90 max-w-3xl">
               Meet the dedicated team behind the Aarhus 2025 Conference organisation
@@ -131,7 +131,7 @@ export default function OrganizersPage() {
           {/* Note about changes */}
           <div class="mt-12 bg-gray-50 p-6 rounded-lg">
             <p class="text-gray-600 text-sm">
-              The organizing committee information is subject to updates.
+              The organising committee information is subject to updates.
               Please check back regularly for the most current information.
             </p>
           </div>
