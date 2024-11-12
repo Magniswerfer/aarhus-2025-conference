@@ -19,12 +19,7 @@ const PapersCommittee = () => {
             <p className="font-medium text-gray-900">
               {formatName(member.name)}
             </p>
-            <a
-              href={`mailto:${member.email}`}
-              className="text-gray-600 hover:text-aarhus-red transition-colors duration-200"
-            >
-              {member.email}
-            </a>
+
           </div>
         ))}
       </div>
