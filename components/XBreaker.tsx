@@ -17,7 +17,7 @@ export default function XBreaker() {
             className="text-white leading-none absolute"
             style={{
               fontSize: "clamp(20rem, 60vw, 28.5rem)",
-              transform: "translateY(-2%)"
+              fontFamily: "Roboto Condensed"
             }}
           >
             X

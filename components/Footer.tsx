@@ -68,7 +68,7 @@ export default function Footer() {
                 Author Guidelines
               </a>
               <a
-                href="/organizers"
+                href="/organisers"
                 class="hover:text-gray-200 transition-colors"
               >
                 Organizers
