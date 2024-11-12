@@ -71,7 +71,7 @@ export default function Footer() {
                 href="/organisers"
                 class="hover:text-gray-200 transition-colors"
               >
-                Organizers
+                Organisers
               </a>
             </nav>
           </div>
