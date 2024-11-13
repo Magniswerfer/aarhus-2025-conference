@@ -42,12 +42,12 @@ export const conferenceDates: ConferenceDate[] = [
   },
   {
     date: "3rd April 2025",
-    description: "Notification of acceptance: Workshops",
+    description: "Workshops",
     type: "notification"
   },
   {
     date: "29th April 2025",
-    description: "Notification of acceptance: Papers and Critiques",
+    description: "Papers and Critiques",
     type: "notification"
   },
   {
@@ -57,7 +57,7 @@ export const conferenceDates: ConferenceDate[] = [
   },
   {
     date: "12th June 2025",
-    description: "Notification of acceptance: Work in Progress",
+    description: "Doctoral Consortium, Demos and Work in Progress",
     type: "notification"
   },
   {
