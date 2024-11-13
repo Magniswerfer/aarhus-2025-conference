@@ -1,4 +1,3 @@
-// components/Footer.tsx
 import {
   CONFERENCE_END_DATE,
   CONFERENCE_LOCATION,
@@ -7,8 +6,31 @@ import {
 } from "../data/conferenceDates.ts";
 
 export default function Footer() {
-  // Get a subset of important dates for the footer
-  const footerDates = conferenceDates.slice(0, 6); // First 6 dates, excluding TBA and conference dates
+  // Filter and sort dates by type
+  const relevantDates = conferenceDates.filter(
+    date => date.type === "deadline" || date.type === "notification"
+  );
+
+  const deadlines = relevantDates
+    .filter(date => date.type === "deadline")
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  const notifications = relevantDates
+    .filter(date => date.type === "notification")
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  const DateColumn = ({ dates, title }) => (
+    <div class="space-y-4">
+      <h4 class="font-roboto-condensed font-bold text-white/80">{title}</h4>
+      {dates.map((item) => (
+        <div class="text-sm" key={item.date + item.description}>
+          <span class="font-bold">{item.date}</span>
+          <br />
+          <span class="text-gray-200">{item.description}</span>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <footer class="bg-aarhus-red text-white py-12">
@@ -32,23 +54,16 @@ export default function Footer() {
               </div>
             </div>
           </div>
-
           {/* Important Dates */}
           <div class="mb-8 md:mb-0 md:col-span-2">
             <h3 class="font-roboto-condensed font-bold text-lg mb-4">
               IMPORTANT DATES
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {footerDates.map((item) => (
-                <div class="text-sm">
-                  <span class="font-bold">{item.date}</span>
-                  <br />
-                  <span class="text-gray-200">{item.description}</span>
-                </div>
-              ))}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <DateColumn dates={deadlines} title="Deadlines" />
+              <DateColumn dates={notifications} title="Notifications" />
             </div>
           </div>
-
           {/* Quick Links */}
           <div class="mb-8 md:mb-0">
             <h3 class="font-roboto-condensed font-bold text-lg mb-4">
@@ -76,7 +91,6 @@ export default function Footer() {
             </nav>
           </div>
         </div>
-
         {/* Bottom Section */}
         <div class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div class="mb-4 md:mb-0">
