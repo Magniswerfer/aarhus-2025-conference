@@ -3,10 +3,15 @@ export const CONFERENCE_START_DATE = "18th August 2025";
 export const CONFERENCE_END_DATE = "22nd August 2025";
 export const CONFERENCE_LOCATION = "Aarhus, Denmark";
 
-export interface ConferenceDate {
-  date: string;
-  description: string;
-  type: string;
+export interface DateInfo {
+  deadline: string;
+  notification: string;
+  cameraReady?: string;
+}
+
+export interface SubmissionType {
+  name: string;
+  dates: DateInfo;
 }
 
 export interface QuickLink {
@@ -29,45 +34,80 @@ export const quickLinks: QuickLink[] = [
   },
 ];
 
-export const conferenceDates: ConferenceDate[] = [
+// Helper function to group submission types by their dates
+export function getCollatedSubmissionTypes(submissions: SubmissionType[]) {
+  const groupedByDates = submissions.reduce((acc, submission) => {
+    const key = `${submission.dates.deadline}-${submission.dates.notification}-${submission.dates.cameraReady}`;
+    if (!acc[key]) {
+      acc[key] = {
+        names: [],
+        dates: submission.dates
+      };
+    }
+    acc[key].names.push(submission.name);
+    return acc;
+  }, {} as Record<string, { names: string[], dates: DateInfo }>);
+
+  return Object.values(groupedByDates).map(group => ({
+    names: group.names,
+    dates: group.dates
+  }));
+}
+
+export const submissionTypes: SubmissionType[] = [
   {
-    date: "20th February 2025",
-    description: "Papers, Critiques",
-    type: "deadline"
+    name: "Papers",
+    dates: {
+      deadline: "20th February 2025",
+      notification: "29th April 2025",
+      cameraReady: "TBA"
+    }
   },
   {
-    date: "6th March 2025",
-    description: "Workshops",
-    type: "deadline"
+    name: "Critiques",
+    dates: {
+      deadline: "20th February 2025",
+      notification: "29th April 2025",
+      cameraReady: "TBA"
+    }
   },
   {
-    date: "3rd April 2025",
-    description: "Workshops",
-    type: "notification"
+    name: "Workshops",
+    dates: {
+      deadline: "6th March 2025",
+      notification: "3rd April 2025",
+      cameraReady: "TBA"
+    }
   },
   {
-    date: "29th April 2025",
-    description: "Papers and Critiques",
-    type: "notification"
+    name: "Work in Progress",
+    dates: {
+      deadline: "6th May 2025",
+      notification: "12th June 2025",
+      cameraReady: "TBA"
+    }
   },
   {
-    date: "6th May 2025",
-    description: "Doctoral Consortium, Demos and Work in Progress",
-    type: "deadline"
+    name: "Demos",
+    dates: {
+      deadline: "6th May 2025",
+      notification: "12th June 2025",
+      cameraReady: "TBA"
+    }
   },
   {
-    date: "12th June 2025",
-    description: "Doctoral Consortium, Demos and Work in Progress",
-    type: "notification"
-  },
-  {
-    date: "TBA",
-    description: "Camera-ready deadlines will follow",
-    type: "deadline"
-  },
-  {
-    date: `${CONFERENCE_START_DATE} - ${CONFERENCE_END_DATE}`,
-    description: "Workshops and Conference",
-    type: "conference-dates"
-  },
+    name: "Doctoral Consortium",
+    dates: {
+      deadline: "6th May 2025",
+      notification: "12th June 2025",
+      cameraReady: "TBA"
+    }
+  }
 ];
+
+export const conferenceDate = {
+  start: CONFERENCE_START_DATE,
+  end: CONFERENCE_END_DATE,
+  location: CONFERENCE_LOCATION,
+  description: "Workshops and Conference"
+};
