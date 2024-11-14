@@ -4,6 +4,7 @@ import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
 import XBreaker from "../../islands/XBreaker.tsx"
 import PapersCommittee from "../../components/Committees/PapersCommittee.tsx"
+import SubmissionDates from "../../components/SubmissionDates.tsx";
 
 export default function PapersPage() {
   const content = [
@@ -66,6 +67,10 @@ export default function PapersPage() {
           imageSrc="/images/papersVinclusive.png"
           imageAlt="Papers illustration"
           imagePosition="right"
+        />
+        <SubmissionDates
+          submissionType="Papers"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
         />
       <XBreaker/>
       <PapersCommittee/>

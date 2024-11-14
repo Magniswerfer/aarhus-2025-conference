@@ -2,6 +2,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
+import SubmissionDates from "../../components/SubmissionDates.tsx";
 
 export default function DoctoralConsortiumPage() {
   const content = [
@@ -25,12 +26,16 @@ export default function DoctoralConsortiumPage() {
             </h1>
           </div>
         </div>
-        <div class="flex-1 flex min-h-[55vh]">
+        <div class="flex-1 flex min-h-[20vh]">
           <ContentSection
             content={content}
             imagePosition="right"
           />
         </div>
+        <SubmissionDates
+                  submissionType="Doctoral Consortium"
+                  className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+                />
       </Layout>
     </>
   );

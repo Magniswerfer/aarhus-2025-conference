@@ -2,6 +2,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
+import SubmissionDates from "../../components/SubmissionDates.tsx";
 
 export default function DemosPage() {
   const content = [
@@ -18,14 +19,17 @@ export default function DemosPage() {
             </h1>
           </div>
         </div>
-        <div class="flex-1 min-h-[55vh]">
+        <div class="flex-1 min-h-[20vh]">
           <ContentSection
             content={content}
             imagePosition="right"
           />
+          <SubmissionDates
+                    submissionType="Demos"
+                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+                  />
         </div>
       </div>
     </Layout>
   );
 }
-

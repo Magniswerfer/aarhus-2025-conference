@@ -2,6 +2,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
+import SubmissionDates from "../../components/SubmissionDates.tsx";
 
 export default function CritiquesPage() {
   const content = [
@@ -56,6 +57,10 @@ export default function CritiquesPage() {
           imageAlt="Critiques illustration"
           imagePosition="right"
         />
+        <SubmissionDates
+                  submissionType="Critiques"
+                  className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+                />
       </Layout>
     </>
   );

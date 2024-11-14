@@ -2,6 +2,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
+import SubmissionDates from "../../components/SubmissionDates.tsx";
 
 export default function WorksInProgressPage() {
   const content = [
@@ -60,6 +61,10 @@ export default function WorksInProgressPage() {
           content={content}
           imagePosition="right"
         />
+        <SubmissionDates
+                          submissionType="Work in Progress"
+                          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+                        />
       </Layout>
     </>
   );
