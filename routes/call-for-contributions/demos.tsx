@@ -25,9 +25,9 @@ export default function DemosPage() {
             imagePosition="right"
           />
           <SubmissionDates
-                    submissionType="Demos"
-                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-                  />
+            submissionType="Demos"
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+          />
         </div>
       </div>
     </Layout>
