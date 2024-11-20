@@ -3,6 +3,8 @@ import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
 import SubmissionDates from "../../components/SubmissionDates.tsx";
+import CritiquesCommittee from "../../components/Committees/CritiquesCommitee.tsx";
+import XBreaker from "../../islands/XBreaker.tsx";
 
 export default function CritiquesPage() {
   const content = [
@@ -58,9 +60,11 @@ export default function CritiquesPage() {
           imagePosition="right"
         />
         <SubmissionDates
-                  submissionType="Critiques"
-                  className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-                />
+          submissionType="Critiques"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        />
+        <XBreaker />
+        <CritiquesCommittee />
       </Layout>
     </>
   );
