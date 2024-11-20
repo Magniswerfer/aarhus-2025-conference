@@ -30,7 +30,7 @@ export default function WorksInProgressPage() {
           </a>, the ACM Conference Proceedings Primary Article; a single-column
           format must be used for the reviewing phase.
         </>,
-        "Your submission must be anonymized."
+        "Your submission must be anonymized.",
       ],
     },
   ];
@@ -59,12 +59,14 @@ export default function WorksInProgressPage() {
 
         <ContentSection
           content={content}
+          imageSrc="/images/wip.png"
+          imageAlt="Work-in-Progress illustration"
           imagePosition="right"
         />
         <SubmissionDates
-                          submissionType="Work in Progress"
-                          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-                        />
+          submissionType="Work in Progress"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        />
       </Layout>
     </>
   );
