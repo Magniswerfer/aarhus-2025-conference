@@ -1,5 +1,4 @@
 import { critiquesCommittee } from "../../data/commiteeData.ts";
-import type CritiquesPage from "../../routes/call-for-contributions/critiques.tsx";
 
 const CritiquesCommittee = () => {
   return (
