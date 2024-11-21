@@ -8,12 +8,17 @@ interface LayoutProps {
   title?: string;
 }
 
-export default function Layout({ children, title = "Aarhus 2025 Conference" }: LayoutProps) {
+export default function Layout(
+  { children, title = "Aarhus 2025 Conference" }: LayoutProps,
+) {
   return (
     <>
       <Head>
         <title>{title}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <div class="min-h-screen flex flex-col">
         <Navigation />
@@ -25,4 +30,3 @@ export default function Layout({ children, title = "Aarhus 2025 Conference" }: L
     </>
   );
 }
-

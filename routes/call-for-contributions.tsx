@@ -1,6 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../layouts/layout.tsx";
 import ConferenceDates from "../components/ConferenceDates.tsx";
+import ContributionTypesGrid from "../components/ContributionTypesGrid.tsx";
 
 export default function CallForContributionsPage() {
   return (
@@ -49,99 +50,7 @@ export default function CallForContributionsPage() {
                 contributions:
               </p>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <a
-                  href="/call-for-contributions/papers"
-                  class="block group h-full"
-                >
-                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 h-full">
-                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">
-                      Papers
-                    </h3>
-                    <p class="text-gray-600">
-                      Full research papers addressing fundamental issues and
-                      proposing new agendas with potential for long-lasting
-                      impact.
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="/call-for-contributions/critiques"
-                  class="block group h-full"
-                >
-                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 h-full">
-                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">
-                      Critiques
-                    </h3>
-                    <p class="text-gray-600">
-                      Critical and insightful perspectives challenging the
-                      status quo of computing, including essays, creative
-                      writing, and artwork.
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="/call-for-contributions/workshops"
-                  class="block group h-full"
-                >
-                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 h-full">
-                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">
-                      Workshops
-                    </h3>
-                    <p class="text-gray-600">
-                      Interactive sessions for debate and co-development of
-                      ideas related to Computing (X) Crisis.
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="/call-for-contributions/work-in-progress"
-                  class="block group h-full"
-                >
-                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 h-full">
-                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">
-                      Work-in-Progress
-                    </h3>
-                    <p class="text-gray-600">
-                      Presentations of emerging ideas and tentative findings
-                      that engage with the conference theme.
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="/call-for-contributions/demos"
-                  class="block group h-full"
-                >
-                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 h-full">
-                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">
-                      Demos
-                    </h3>
-                    <p class="text-gray-600">
-                      Demonstrations of, e.g., novel interactions techniques,
-                      activitism, etc.
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="/call-for-contributions/doctoral-consortium"
-                  class="block group h-full"
-                >
-                  <div class="bg-gray-50 p-6 rounded-lg transition-all duration-200 hover:bg-gray-100 h-full">
-                    <h3 class="font-bold text-xl mb-2 text-aarhus-red group-hover:text-aarhus-red/80">
-                      Doctoral Consortium
-                    </h3>
-                    <p class="text-gray-600">
-                      Unique opportunities to engage in exchanges about doctoral
-                      research relevant to the conference.
-                    </p>
-                  </div>
-                </a>
-              </div>
+              <ContributionTypesGrid />
             </section>
 
             {/* Important Dates using component */}

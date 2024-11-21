@@ -4,7 +4,6 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_joke from "./routes/api/joke.ts";
 import * as $author_guidelines from "./routes/author-guidelines.tsx";
 import * as $call_for_contributions from "./routes/call-for-contributions.tsx";
 import * as $call_for_contributions_critiques from "./routes/call-for-contributions/critiques.tsx";
@@ -13,11 +12,8 @@ import * as $call_for_contributions_doctoral_consortium from "./routes/call-for-
 import * as $call_for_contributions_papers from "./routes/call-for-contributions/papers.tsx";
 import * as $call_for_contributions_work_in_progress from "./routes/call-for-contributions/work-in-progress.tsx";
 import * as $call_for_contributions_workshops from "./routes/call-for-contributions/workshops.tsx";
-import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $organisers from "./routes/organisers.tsx";
-import * as $test from "./routes/test.tsx";
-import * as $Counter from "./islands/Counter.tsx";
 import * as $History from "./islands/History.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
 import * as $XBreaker from "./islands/XBreaker.tsx";
@@ -27,7 +23,6 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/joke.ts": $api_joke,
     "./routes/author-guidelines.tsx": $author_guidelines,
     "./routes/call-for-contributions.tsx": $call_for_contributions,
     "./routes/call-for-contributions/critiques.tsx":
@@ -41,13 +36,10 @@ const manifest = {
       $call_for_contributions_work_in_progress,
     "./routes/call-for-contributions/workshops.tsx":
       $call_for_contributions_workshops,
-    "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/organisers.tsx": $organisers,
-    "./routes/test.tsx": $test,
   },
   islands: {
-    "./islands/Counter.tsx": $Counter,
     "./islands/History.tsx": $History,
     "./islands/Navigation.tsx": $Navigation,
     "./islands/XBreaker.tsx": $XBreaker,
