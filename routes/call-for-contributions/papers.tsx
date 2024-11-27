@@ -2,8 +2,8 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
-import XBreaker from "../../islands/XBreaker.tsx"
-import PapersCommittee from "../../components/Committees/PapersCommittee.tsx"
+import XBreaker from "../../islands/XBreaker.tsx";
+import PapersCommittee from "../../components/Committees/PapersCommittee.tsx";
 import SubmissionDates from "../../components/SubmissionDates.tsx";
 
 export default function PapersPage() {
@@ -25,7 +25,7 @@ export default function PapersPage() {
         <>
           Please ensure that you use the correct{" "}
           <a
-            href="/call-for-contributions/author-guidelines#templates"
+            href="/author-guidelines"
             className="text-aarhus-red hover:underline"
           >
             template
@@ -72,8 +72,8 @@ export default function PapersPage() {
           submissionType="Papers"
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
         />
-      <XBreaker/>
-      <PapersCommittee/>
+        <XBreaker />
+        <PapersCommittee />
       </Layout>
     </>
   );

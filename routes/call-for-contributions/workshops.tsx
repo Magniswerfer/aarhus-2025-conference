@@ -17,16 +17,16 @@ export default function WorkshopsPage() {
         "Impact and relevance: How does it connect to the conference theme and how does it provide lasting impact to the communities it engages?",
       ],
     },
-<>
-          Please ensure that you use the correct{" "}
-          <a
-            href="/call-for-contributions/author-guidelines#templates"
-            className="text-aarhus-red hover:underline"
-          >
-            template
-          </a>, the ACM Conference Proceedings Primary Article; a single-column
-          format must be used for the reviewing phase.
-        </>,
+    <>
+      Please ensure that you use the correct{" "}
+      <a
+        href="/author-guidelines"
+        className="text-aarhus-red hover:underline"
+      >
+        template
+      </a>, the ACM Conference Proceedings Primary Article; a single-column
+      format must be used for the reviewing phase.
+    </>,
     "Your submission must be anonymized.",
   ];
 
@@ -60,9 +60,9 @@ export default function WorkshopsPage() {
           imagePosition="right"
         />
         <SubmissionDates
-                                  submissionType="Workshops"
-                                  className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-                                />
+          submissionType="Workshops"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        />
       </Layout>
     </>
   );

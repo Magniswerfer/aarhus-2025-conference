@@ -23,7 +23,7 @@ export default function WorksInProgressPage() {
         <>
           Please ensure that you use the correct{" "}
           <a
-            href="/call-for-contributions/author-guidelines#templates"
+            href="/author-guidelines"
             className="text-aarhus-red hover:underline"
           >
             template
