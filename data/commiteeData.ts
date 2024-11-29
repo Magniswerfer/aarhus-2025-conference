@@ -5,6 +5,8 @@ export interface CommitteeMember {
 }
 
 export const papersCommittee: CommitteeMember[] = [
+  { name: "Konstantin Aal", affiliation: "University of Siegen" },
+
   { name: "Eric Baumer", affiliation: "Lehigh University" },
 
   { name: "Alan Borning", affiliation: "University of Washington" },
@@ -58,6 +60,8 @@ export const papersCommittee: CommitteeMember[] = [
   { name: "Midas Nouwens", affiliation: "Aarhus University" },
 
   { name: "Leysia Palen", affiliation: "University of Colorado" },
+
+  { name: "Dave Randall", affiliation: "University of Siegen" },
 
   { name: "Stuart Reeves", affiliation: "University of Nottingham" },
 
