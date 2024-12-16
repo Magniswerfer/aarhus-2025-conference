@@ -8,6 +8,7 @@ export default function DoctoralConsortiumPage() {
   const content = [
     "As part of submissions to the Doctoral Consortium, we invite you to consider the conference title, “computing (x) crisis”,  and how this relates your research to alternatives to current directions in computing, for instance via methodological or theoretical developments, or present new forms of critical or societal engagements and action. With the (X) we invite authors to speculate on potential replacements of the universal X – with, after, in, etc – and on what it means to combine the two words.",
     "The doctoral consortium will take place on-site at Aarhus University, Denmark.",
+    "Doctoral consortium contributions will not be added to ACM Digital Library.",
     <h2 class=" text-3xl font-bold text-aarhus-red mb-8">
       Who can participate?
     </h2>,

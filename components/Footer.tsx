@@ -2,9 +2,9 @@ import {
   CONFERENCE_END_DATE,
   CONFERENCE_LOCATION,
   CONFERENCE_START_DATE,
-  submissionTypes,
   getCollatedSubmissionTypes,
   quickLinks,
+  submissionTypes,
 } from "../data/conferenceDates.ts";
 
 export default function Footer() {
@@ -91,6 +91,12 @@ export default function Footer() {
                 class="hover:text-gray-200 transition-colors"
               >
                 Organisers
+              </a>
+              <a
+                href="https://new.precisionconference.com/submissions"
+                class="hover:text-gray-200 transition-colors"
+              >
+                Submission (PCS)
               </a>
             </nav>
           </div>

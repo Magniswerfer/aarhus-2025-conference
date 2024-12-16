@@ -29,6 +29,26 @@ export default function AuthorGuidelinesPage() {
         {/* Main Content */}
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div class="prose max-w-none">
+            <div class="bg-gray-50 p-6 rounded-lg mb-16">
+              <p class="mb-4">
+                Submit via the{" "}
+                <a
+                  href="https://new.precisionconference.com/submissions"
+                  class="text-aarhus-red hover:text-aarhus-red/80"
+                >
+                  PCS conference system.
+                </a>{"  "}
+                Pick Aarhus and Aarhus 2025.
+              </p>
+              <p>
+                Accepted contributions will be added to the ACM Digital Library
+                and thus indexed and searchable. As is custom in ACM affiliated
+                conferences, papers and critiques will be archival whereas
+                Work-in-Progress, Demos, and Workshops will be in the adjunct
+                proceedings. Doctoral Consortium contributions will not be added
+                to ACM DL.
+              </p>
+            </div>
             {/* Template Downloads */}
             <section class="mb-16">
               <h2 class="text-3xl font-bold text-aarhus-red mb-6">
