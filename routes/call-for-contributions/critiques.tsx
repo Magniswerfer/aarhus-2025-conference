@@ -8,24 +8,58 @@ import XBreaker from "../../islands/XBreaker.tsx";
 
 export default function CritiquesPage() {
   const content = [
-    "The Critiques track will spark thought-provoking discussions across subject areas, research traditions and generations. Critiques submission formats include but are not limited to: Essay, creative writing e.g manifestos, stories, fictions, pictorial, artwork e.g software, video games, audio-visual art, theoretical or analytical article, provotype, artifact with networked, generative, and/or programmed elements.",
+    "The Critiques track will spark thought-provoking discussions across subject areas, research traditions, and generations. Critiques submission formats include but are not limited to: Essay, creative writing e.g manifestos, stories, fictions, pictorial, artwork e.g software, video games, audio-visual art, theoretical or analytical article, provotype, artifact with networked, generative, and/or programmed elements.",
     "Submitted critiques will be evaluated based on:",
     {
       type: "list",
       content: [
-        "Their ability to critically examine a topic, inspire, and/or spark debate and reflection",
-        "How well they are made relevant to the conference theme: Computing (X) Crisis",
+        "Their ability to critically examine a topic, inspire, and/or spark debate and reflection.",
+        "How well they are made relevant to the conference theme: Computing (X) Crisis and to the decennial perspective.",
       ],
     },
-    "All submitted critiques will undergo double-blind peer reviews, which will be used by the Critiques chairs to make the final decision.",
+    "All submitted critiques will undergo double-blind peer reviews performed by invited reviewers from the program committee. This is complemented by a meta-review, which will be used by the Critiques chairs to make the final decision, in dialogue with the program committee where necessary.",
+    <h2 className="text-3xl font-bold text-aarhus-red mb-4">
+      Submission Instructions
+    </h2>,
+    <>
+      All materials must be submitted electronically via{"  "}
+      <a
+        href="https://new.precisionconference.com/submissions"
+        className="text-aarhus-red hover:underline"
+      >
+        PCS
+      </a>, by the deadline.
+    </>,
     {
       type: "list",
       content: [
         "Your submission must be anonymized.",
-        "If you submit a non-written artifact, you must submit a PDF with a description of the submission and the artifact as supplementary material in the submission system.Your submission must be anonymized.",
+        "If you submit a non-written artifact, you must submit a PDF abstract with a description of the submission. You may submit the artifact as supplementary material in the submission system.",
+        "If your primary contribution is a piece of writing, we encourage submissions that are no longer than 8000 words (excluding any references).",
         "Upon acceptance, we will work with you to produce a description of the contribution in the ACM extended abstract format for archival in the ACM digital library.",
       ],
     },
+    "Accepted critiques will be published in the ACM Digital Library. This will require use of the ACM single-column template described in the Author Guidelines, either for the critique itself or for an abstract about the critique (the latter in case it not be feasible or desirable to format the critique using the template - such as with an interactive artifact, or a piece of writing that has particular formatting as part of its contribution).",
+    "Accepted critiques must be presented at the conference. We encourage alternative formats of presentation where appropriate.",
+    <>
+      Questions can be directed to{"  "}
+      <a
+        href="mailto:ilarsen-ledet@ucc.ie"
+        className="text-aarhus-red hover:underline"
+      >
+        Ida Larsen-Ledet
+      </a>, or{"  "}
+      <a
+        href="mailto:parikka@cc.au.dk"
+        className="text-aarhus-red hover:underline"
+      >
+        Jussi Parikka
+      </a>
+    </>,
+    <h2 className="text-3xl font-bold text-aarhus-red mb-4">
+      The decennial perspective
+    </h2>,
+    "The decennial nature of the conference (i.e., that it only happens every ten years) is an opportunity to zoom out and reflect on your contribution and on HCI, computing, and other related areas of research at a bigger timescale, and to look forward with a longer-term perspective than we often do at other conferences. Submissions should embrace this perspective in the thinking they present and the questions they ask.",
   ];
 
   return (
