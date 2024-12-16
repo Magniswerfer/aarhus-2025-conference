@@ -18,7 +18,7 @@ export default function PapersPage() {
         "provides new perspectives",
       ],
     },
-    "We accept short and long papers. Submissions below 5,000 words are considered short and is allowed and encouraged for to-the-point arguments. Submissions between 5,000 and 12,000 words are considered standard long papers, while submissions exceeding 12,000 words should only be made with very good reasons.",
+    "We accept short and long papers. Submissions below 5,000 words are considered short and is allowed and encouraged for to-the-point arguments. Submissions between 5,000 and 12,000 words are considered standard long papers, while submissions exceeding 12,000 words should only be made with very good reasons. The wordcount does not include references, images, or tables.",
     {
       type: "list",
       content: [

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,14 +8,18 @@ export default function Navigation() {
 
   useEffect(() => {
     const checkTouch = () => {
-      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      setIsTouchDevice(
+        "ontouchstart" in window || navigator.maxTouchPoints > 0,
+      );
     };
 
     checkTouch();
-    window.addEventListener('touchstart', () => setIsTouchDevice(true), { once: true });
+    window.addEventListener("touchstart", () => setIsTouchDevice(true), {
+      once: true,
+    });
 
     return () => {
-      window.removeEventListener('touchstart', () => setIsTouchDevice(true));
+      window.removeEventListener("touchstart", () => setIsTouchDevice(true));
     };
   }, []);
 
@@ -23,9 +27,15 @@ export default function Navigation() {
     { path: "/call-for-contributions/papers", label: "PAPERS" },
     { path: "/call-for-contributions/critiques", label: "CRITIQUES" },
     { path: "/call-for-contributions/workshops", label: "WORKSHOPS" },
-    { path: "/call-for-contributions/work-in-progress", label: "WORK IN PROGRESS" },
-    { path: "/call-for-contributions/demos", label: "DEMOS" },
-    { path: "/call-for-contributions/doctoral-consortium", label: "DOCTORAL CONSORTIUM" },
+    {
+      path: "/call-for-contributions/work-in-progress",
+      label: "WORK IN PROGRESS",
+    },
+    { path: "/call-for-contributions/demos", label: "DEMOS & EXPERIENCES" },
+    {
+      path: "/call-for-contributions/doctoral-consortium",
+      label: "DOCTORAL CONSORTIUM",
+    },
   ];
 
   const links = [
@@ -53,7 +63,7 @@ export default function Navigation() {
 
   // Close dropdown when clicking outside
   const handleClickOutside = (e) => {
-    if (!e.target.closest('.dropdown-container')) {
+    if (!e.target.closest(".dropdown-container")) {
       setActiveDropdown(null);
     }
   };
@@ -74,58 +84,81 @@ export default function Navigation() {
             {links.map((link) => (
               <div
                 key={link.path}
-                class={`relative dropdown-container ${!isTouchDevice ? 'group' : ''}`}
+                class={`relative dropdown-container ${
+                  !isTouchDevice ? "group" : ""
+                }`}
               >
-                {link.hasDropdown ? (
-                  <div class="py-4">
-                    <div class="flex items-center">
-                      <a
-                        href={link.path}
-                        class={`text-black uppercase text-base hover:opacity-90 ${
-                          currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
-                        }`}
-                      >
-                        {link.label}
-                      </a>
-                      <button
-                        onClick={(e) => handleDropdownClick(e, link.path)}
-                        class="ml-1 p-1"
-                        aria-label="Toggle dropdown"
-                      >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                    </div>
-                    <div
-                      class={`absolute left-0 top-full w-64 bg-white shadow-lg rounded-b-md py-2 z-50 transition-opacity duration-200 ${
-                        !isTouchDevice ? 'opacity-0 invisible group-hover:opacity-100 group-hover:visible' :
-                        activeDropdown === link.path ? "opacity-100 visible" : "opacity-0 invisible"
-                      }`}
-                    >
-                      {link.dropdownItems.map((item) => (
+                {link.hasDropdown
+                  ? (
+                    <div class="py-4">
+                      <div class="flex items-center">
                         <a
-                          key={item.path}
-                          href={item.path}
-                          class={`block px-4 py-2 text-sm text-black hover:bg-gray-100 ${
-                            currentPath === item.path ? "font-bold" : "opacity-60"
+                          href={link.path}
+                          class={`text-black uppercase text-base hover:opacity-90 ${
+                            currentPath === link.path
+                              ? "opacity-100 font-bold"
+                              : "opacity-60"
                           }`}
                         >
-                          {item.label}
+                          {link.label}
                         </a>
-                      ))}
+                        <button
+                          onClick={(e) => handleDropdownClick(e, link.path)}
+                          class="ml-1 p-1"
+                          aria-label="Toggle dropdown"
+                        >
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div
+                        class={`absolute left-0 top-full w-64 bg-white shadow-lg rounded-b-md py-2 z-50 transition-opacity duration-200 ${
+                          !isTouchDevice
+                            ? "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+                            : activeDropdown === link.path
+                            ? "opacity-100 visible"
+                            : "opacity-0 invisible"
+                        }`}
+                      >
+                        {link.dropdownItems.map((item) => (
+                          <a
+                            key={item.path}
+                            href={item.path}
+                            class={`block px-4 py-2 text-sm text-black hover:bg-gray-100 ${
+                              currentPath === item.path
+                                ? "font-bold"
+                                : "opacity-60"
+                            }`}
+                          >
+                            {item.label}
+                          </a>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <a
-                    href={link.path}
-                    class={`text-black uppercase text-base hover:opacity-90 py-4 block ${
-                      currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                )}
+                  )
+                  : (
+                    <a
+                      href={link.path}
+                      class={`text-black uppercase text-base hover:opacity-90 py-4 block ${
+                        currentPath === link.path
+                          ? "opacity-100 font-bold"
+                          : "opacity-60"
+                      }`}
+                    >
+                      {link.label}
+                    </a>
+                  )}
               </div>
             ))}
           </div>
