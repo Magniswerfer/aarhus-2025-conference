@@ -9,13 +9,10 @@ export default class ConferenceTimeline extends Component {
         <div class="relative ml-6 md:ml-16">
           {/* Line container with absolute positioning */}
           <div class="absolute left-0 top-0 bottom-0 hidden md:block">
-            {/* Solid line starting from first dot */}
             <div
               class="absolute left-0 w-1 bg-gray-200"
-              style="top: 150px; bottom: 40px;"
+              style="top: 40px; bottom: 40px;"
             />
-
-            {/* Dotted line at the bottom */}
             <div
               class="absolute left-0 bottom-0 w-1 h-16"
               style="background: repeating-linear-gradient(to bottom, #E5E7EB 0, #E5E7EB 4px, transparent 4px, transparent 8px);"
@@ -24,19 +21,21 @@ export default class ConferenceTimeline extends Component {
 
           {conferences.map((conference) => (
             <div key={conference.year} class="relative mb-16">
-              {/* Year marker - now vertically centered with card */}
-              <div class="absolute left-0 top-1/2 -translate-y-1/2 transform -translate-x-1/2 w-12 h-12 md:w-16 md:h-16 bg-red-600 rounded-full text-white flex items-center justify-center z-10">
-                <div class="text-base md:text-lg font-bold">
-                  {conference.year}
-                </div>
+              {/* Year marker - desktop version */}
+              <div class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 transform -translate-x-1/2 w-16 h-16 bg-aarhus-red rounded-full text-white items-center justify-center z-10">
+                <div class="text-lg font-bold">{conference.year}</div>
               </div>
 
-              {/* Card container */}
-              <div class="ml-8 md:ml-16">
+              {/* Mobile layout container */}
+              <div class="md:ml-16">
+                {/* Year marker - mobile version, now larger and above card */}
+                <div class="md:hidden w-20 h-20 bg-red-600 rounded-full text-white flex items-center justify-center mb-4 mx-auto">
+                  <div class="text-2xl font-bold">{conference.year}</div>
+                </div>
+
+                {/* Card */}
                 <div class="bg-white rounded-lg shadow-md p-6 md:p-8 max-w-2xl">
-                  {/* Added max-width to card */}
                   <div class="flex flex-col md:flex-row md:items-start gap-8">
-                    {/* Text content */}
                     <div class="flex-1">
                       <h3 class="text-xl font-bold mb-4">{conference.title}</h3>
                       <p class="text-gray-600 text-sm">
@@ -44,7 +43,6 @@ export default class ConferenceTimeline extends Component {
                       </p>
                     </div>
 
-                    {/* Proceedings placeholder */}
                     <div class="flex justify-center md:justify-start">
                       <div class="group cursor-pointer inline-block">
                         <div class="transition-transform transform group-hover:-translate-y-1">
