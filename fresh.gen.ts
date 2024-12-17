@@ -12,8 +12,10 @@ import * as $call_for_contributions_doctoral_consortium from "./routes/call-for-
 import * as $call_for_contributions_papers from "./routes/call-for-contributions/papers.tsx";
 import * as $call_for_contributions_work_in_progress from "./routes/call-for-contributions/work-in-progress.tsx";
 import * as $call_for_contributions_workshops from "./routes/call-for-contributions/workshops.tsx";
+import * as $history from "./routes/history.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $organisers from "./routes/organisers.tsx";
+import * as $ConferenceTimeline from "./islands/ConferenceTimeline.tsx";
 import * as $History from "./islands/History.tsx";
 import * as $Navigation from "./islands/Navigation.tsx";
 import * as $XBreaker from "./islands/XBreaker.tsx";
@@ -36,10 +38,12 @@ const manifest = {
       $call_for_contributions_work_in_progress,
     "./routes/call-for-contributions/workshops.tsx":
       $call_for_contributions_workshops,
+    "./routes/history.tsx": $history,
     "./routes/index.tsx": $index,
     "./routes/organisers.tsx": $organisers,
   },
   islands: {
+    "./islands/ConferenceTimeline.tsx": $ConferenceTimeline,
     "./islands/History.tsx": $History,
     "./islands/Navigation.tsx": $Navigation,
     "./islands/XBreaker.tsx": $XBreaker,
