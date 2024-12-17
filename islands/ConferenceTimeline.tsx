@@ -29,7 +29,7 @@ export default class ConferenceTimeline extends Component {
               {/* Mobile layout container */}
               <div class="md:ml-16">
                 {/* Year marker - mobile version, now larger and above card */}
-                <div class="md:hidden w-20 h-20 bg-red-600 rounded-full text-white flex items-center justify-center mb-4 mx-auto">
+                <div class="md:hidden w-20 h-20 bg-aarhus-red rounded-full text-white flex items-center justify-center mb-4 mx-auto">
                   <div class="text-2xl font-bold">{conference.year}</div>
                 </div>
 
