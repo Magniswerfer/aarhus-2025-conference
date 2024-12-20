@@ -27,7 +27,7 @@ export default function WorkshopsPage() {
       </a>, the ACM Conference Proceedings Primary Article; a single-column
       format must be used for the reviewing phase.
     </>,
-    "Your submission must be anonymized.",
+    "Submissions should NOT be anonymised. Submissions can be up to four pages long (excluding references) in the ACM standard single-column format.",
   ];
 
   return (
