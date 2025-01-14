@@ -26,21 +26,17 @@ export const conferences = [
             url: "https://dl.acm.org/doi/proceedings/10.1145/1094562",
           }
         ]
-    year: "1985",
-    title: "Computers and Democracy",
-    description:
-      'Focus on practical collaboration with workers and theoretical contributions on topics like object orientation and software as a process. This conference was truly international, and resulted in the 1987 collection "Computers and Democracy" from selected papers. PDFs of the proceedings will be added here in January',
-  },
+   },
   {
     year: 1995,
     title: "Computers in Context: joining forces in design",
-    description: "Focusing on the variety of disciplines involved with the design of computer artifacts as critical action. Over the years the involvement of end-users has become standard procedure in many organizations. PDFs of the proceedings will be added here in January",
+    description: "Focusing on the variety of disciplines involved with the design of computer artifacts as critical action. Over the years the involvement of end-users has become standard procedure in many organizations. PDFs of the proceedings will be added here in January.",
 
   },
   {
     year: 1985,
     title: "Computers and Democracy",
-    description: "Focus on practical collaboration with workers and theoretical contributions on topics like object orientation and software as a process. This conference was truly international.",
+    description: "Focus on practical collaboration with workers and theoretical contributions on topics like object orientation and software as a process. This conference was truly international. PDFs of the proceedings will be added here in January.",
   },
   {
     year: 1975,
