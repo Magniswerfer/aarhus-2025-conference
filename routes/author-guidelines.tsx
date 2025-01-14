@@ -56,15 +56,22 @@ export default function AuthorGuidelinesPage() {
               </h2>
               <div class="bg-gray-50 p-6 rounded-lg">
                 <p class="mb-4">
-                  Aarhus2025 uses the ACM master article template and workflow
-                  for all submissions except Critiques where this template is
-                  optional (see the{" "}
+                Aarhus2025 uses the ACM master article template and workflow for all submissions except Critiques and Demos & Experiences where this template is optional (see the{" "}
                   <a
                     href="/call-for-contributions/critiques"
                     class="text-aarhus-red hover:text-aarhus-red/80"
                   >
                     Critiques page
-                  </a>). Submissions appear in a single-column format although
+                  </a>
+                  {" "} and the {" "} 
+                  <a
+                    href={"/call-for-contributions/demos"}
+                    class="text-aarhus-red hover:text-aarhus-red/80"
+                  >
+                    Demos & Experiences page
+                  </a>
+                  ). 
+                  Submissions appear in a single-column format although
                   final papers will be produced in double-column.
                 </p>
                 <h3 class="font-semibold mb-4">

@@ -17,17 +17,7 @@ export default function WorkshopsPage() {
         "Impact and relevance: How does it connect to the conference theme and how does it provide lasting impact to the communities it engages?",
       ],
     },
-    <>
-      Please ensure that you use the correct{" "}
-      <a
-        href="/author-guidelines"
-        className="text-aarhus-red hover:underline"
-      >
-        template
-      </a>, the ACM Conference Proceedings Primary Article; a single-column
-      format must be used for the reviewing phase.
-    </>,
-    "Your submission must be anonymized.",
+    "Submissions should NOT be anonymised. Submissions can be up to four pages long (excluding references) in the ACM standard single-column format that we use for the reviewing phase.",
   ];
 
   return (

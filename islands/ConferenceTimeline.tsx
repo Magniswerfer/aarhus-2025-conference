@@ -34,7 +34,7 @@ export default class ConferenceTimeline extends Component {
                 </div>
 
                 {/* Card */}
-                <div class="bg-white rounded-lg shadow-md p-6 md:p-8 max-w-2xl">
+                <div class="bg-gray-50 rounded-lg p-6 md:p-8 max-w-2xl">
                   <div class="flex flex-col md:flex-row md:items-start gap-8">
                     <div class="flex-1">
                       <h3 class="text-xl font-bold mb-4">{conference.title}</h3>

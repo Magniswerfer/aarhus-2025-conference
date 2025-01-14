@@ -15,13 +15,13 @@ export const conferences: Conference[] = [
     year: "1985",
     title: "Computers and Democracy",
     description:
-      'Focus on practical collaboration with workers and theoretical contributions on topics like object orientation and software as a process. This conference was truly international, and resulted in the 1987 collection "Computers and Democracy" from selected papers.',
+      'Focus on practical collaboration with workers and theoretical contributions on topics like object orientation and software as a process. This conference was truly international, and resulted in the 1987 collection "Computers and Democracy" from selected papers. PDFs of the proceedings will be added here in January',
   },
   {
     year: "1995",
     title: "Computers in Context joining forces in design",
     description:
-      "Focusing on the variety of disciplines involved with the design of computer artifacts as critical action. Over the years the involvement of end-users has become standard procedure in many organizations, today end-user involvement is not always critical action per se.",
+      "Focusing on the variety of disciplines involved with the design of computer artifacts as critical action. Over the years the involvement of end-users has become standard procedure in many organizations, today end-user involvement is not always critical action per se. PDFs of the proceedings will be added here in January",
   },
   {
     year: "2005",
