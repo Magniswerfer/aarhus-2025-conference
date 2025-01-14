@@ -42,7 +42,7 @@ export default function DemosPage() {
                 author guidelines
               </a>.
             </>,
-            "We do not have a strong page limit for the submission, but we recommend that authors prepare a manuscript of ~1,500-2,000 words (plus references).",
+            "We do not have a strong page limit for the submission, but we recommend that authors prepare a manuscript of ~1,500-2,000 words (excluding references).",
             "A supplementary file with a setup description, e.g., a textual description and/or a (mock-up) photo of the project demo showing the envisioned setup (demo hardware components, tables, chairs, lights, and other equipment). Label and annotate the image(s) so organisers get a good understanding of your setup.",
             "An accompanying demo video (max. 5 mins) showing the working demo and/or experience in appropriate detail is strongly recommended.",
           ],

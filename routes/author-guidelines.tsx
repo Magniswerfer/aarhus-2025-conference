@@ -128,19 +128,19 @@ export default function AuthorGuidelinesPage() {
               </h2>
               <div class="bg-gray-50 p-6 rounded-lg">
                 <p class="mb-4">
-                  To prepare your contribution for submission, use the single
+                  Mandatory for papers, optional for critiques and some of the other categories: To prepare your contribution for submission, use the single
                   column format using the provided Word or LaTeX templates. The
                   correct templates for submissions are: single column Word
                   Submission Template and single column LaTeX (using the
                   "manuscript,review,anonymous" style available in the
-                  template).
+                  template). Reviewers will review your
+                  paper in the single column format.
                 </p>
                 <p class="mb-4">
-                  Submit only the PDF version of your manuscript to PCS. When
+                  For all categories: Submit only the PDF version of your manuscript to PCS. When
                   generating the PDF file, please make sure that the fonts are
                   embedded in the PDF file. This will ensure that reviewers can
-                  view the paper without problems. Reviewers will review your
-                  paper in the single column format.
+                  view the paper without problems. 
                 </p>
               </div>
             </section>
@@ -172,7 +172,7 @@ export default function AuthorGuidelinesPage() {
               <h2 class="text-3xl font-bold text-aarhus-red mb-6">Copyright</h2>
               <div class="bg-gray-50 p-6 rounded-lg">
                 <p class="mb-4">
-                  Your submission must be original work. It cannot have been
+                  For papers and critiques: Your submission must be original work. It cannot have been
                   published elsewhere, nor can it be under concurrent review for
                   publication by another conference or journal.
                 </p>

@@ -90,7 +90,6 @@ export const papersCommittee: CommitteeMember[] = [
 
 export const critiquesCommittee: CommitteeMember[] = [
   { name: "Lily Irani", affiliation: "University of California, San Diego" },
-  { name: "Ann Light", affiliation: "University of Sussex & Malmo University" },
   { name: "Katta Spiel", affiliation: "Vienna University of Technology" },
   { name: "Christian Ulrik Andersen", affiliation: "Aarhus University" },
   { name: "Elinor Carmi", affiliation: "City University, London" },
