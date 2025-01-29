@@ -17,7 +17,21 @@ export default function DoctoralConsortiumPage() {
     <h2 class="text-3xl font-bold text-aarhus-red mb-8">
       Preparing and Submitting
     </h2>,
-    "Submissions should be single-authored by the PhD student and NOT anonymous. You will submit the following 2 PDFs in the ACM master article template (single column) format through the Precision Conference submission system (PCS).",
+    <>
+    Submissions should be single-authored by the PhD student and NOT anonymous. You will submit the following 2 PDFs in the{" "}
+    <a
+      href="/author-guidelines"
+      className="text-aarhus-red hover:underline"
+    >
+      ACM master article template (single column)
+    </a>, format through the{" "}
+    <a
+      href="https://new.precisionconference.com/submissions"
+      className="text-aarhus-red hover:underline"
+      >
+        Precision Conference submission system (PCS)
+      </a>.
+    </>,
     <h3 class="text-2xl font-bold text-aarhus-red">PDF 1: PhD Abstract</h3>,
     "Submit a description of your PhD project, max of 4 pages excluding references.",
     <h3 class="text-2xl font-bold text-aarhus-red">
