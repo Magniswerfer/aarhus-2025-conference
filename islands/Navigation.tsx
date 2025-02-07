@@ -46,6 +46,7 @@ export default function Navigation() {
       hasDropdown: true,
       dropdownItems: contributionTypes,
     },
+    { path: "/registration", label: "REGISTRATION"},
     { path: "/author-guidelines", label: "AUTHOR GUIDELINES" },
     { path: "/past-conferences", label: "PAST CONFERENCES"},
     { path: "/organisers", label: "ORGANISERS" },
