@@ -39,7 +39,16 @@ export default function CritiquesPage() {
         "Upon acceptance, we will work with you to produce a description of the contribution in the ACM extended abstract format for archival in the ACM digital library.",
       ],
     },
-    "Accepted critiques will be published in the ACM Digital Library. This will require use of the ACM single-column template described in the Author Guidelines, either for the critique itself or for an abstract about the critique (the latter in case it not be feasible or desirable to format the critique using the template - such as with an interactive artifact, or a piece of writing that has particular formatting as part of its contribution).",
+    <>
+    Accepted critiques will be published in the ACM Digital Library. This will require use of the ACM single-column template described in the {" "}
+    <a
+      href="/author-guidelines"
+      class="text-aarhus-red hover:text-aarhus-red/80"
+    >
+      Author Guidelines
+    </a>
+    , either for the critique itself or for an abstract about the critique (the latter in case it not be feasible or desirable to format the critique using the template - such as with an interactive artifact, or a piece of writing that has particular formatting as part of its contribution)."
+    </>,
     "Accepted critiques must be presented at the conference. We encourage alternative formats of presentation where appropriate.",
     <>
       Questions can be directed to{"  "}

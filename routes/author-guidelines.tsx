@@ -128,7 +128,14 @@ export default function AuthorGuidelinesPage() {
               </h2>
               <div class="bg-gray-50 p-6 rounded-lg">
                 <p class="mb-4">
-                  Mandatory for papers, optional for critiques and some of the other categories: To prepare your contribution for submission, use the single
+                  Mandatory for papers, optional for critiques (see the{" "}
+                  <a
+                    href="/call-for-contributions/critiques"
+                    class="text-aarhus-red hover:text-aarhus-red/80"
+                  >
+                    Critiques page
+                  </a>
+                  {" "} for details). To prepare your contribution for submission, use the single
                   column format using the provided Word or LaTeX templates. The
                   correct templates for submissions are: single column Word
                   Submission Template and single column LaTeX (using the
