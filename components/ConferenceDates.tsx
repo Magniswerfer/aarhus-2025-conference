@@ -18,8 +18,11 @@ export default function ConferenceDates({
 
   return (
     <section class={className}>
-      <h2 class="text-3xl font-bold text-aarhus-red mb-8">{title}</h2>
+      <h2 class="text-3xl font-bold text-aarhus-red mb-4">{title}</h2>
       <div class="space-y-8">
+      <p class="font-bold mb-8">
+        All dates are AoE, Anytime on Earth
+      </p>
         {sortedCollatedTypes.map((item) => (
           <div key={item.type} class="space-y-4">
             <h3 class="text-2xl font-bold text-aarhus-red">

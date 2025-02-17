@@ -18,6 +18,9 @@ export default function Footer() {
       <h3 class="font-roboto-condensed font-bold text-lg mb-4">
         IMPORTANT DATES
       </h3>
+      <p class="font-bold mb-4">
+        All dates are AoE, Anytime on Earth
+      </p>
       <div class="space-y-6">
         {sortedCollatedTypes.map((item) => (
           <div key={item.type} class="space-y-2">

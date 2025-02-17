@@ -20,6 +20,9 @@ const SubmissionDates = ({
   return (
     <section className={className}>
       <h2 className="text-3xl font-bold text-aarhus-red mb-8">{title}</h2>
+      <p class="font-bold mb-8">
+        All dates are AoE, Anytime on Earth
+      </p>
       <div className="space-y-8">
         <div className="space-y-4">
           <h3 className="text-2xl font-bold text-aarhus-red">
