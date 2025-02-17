@@ -25,7 +25,7 @@ const contributionTypes = [
   },
   {
     href: "/call-for-contributions/demos",
-    title: "Demos",
+    title: "Demos and Experiences",
     description:
       "Demonstrations of, e.g., novel interactions techniques, activitism, etc.",
   },
