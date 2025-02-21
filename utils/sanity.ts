@@ -9,7 +9,7 @@ interface SanityConfig {
 }
 
 const config: SanityConfig = {
-  projectId: Deno.env.get("SANITY_PROJECT_ID") || "",
+  projectId: Deno.env.get("SANITY_PROJECT_ID") || "7lk3t6n2",
   dataset: Deno.env.get("SANITY_DATASET") || "production",
   apiVersion: "2024-02-21",
   useCdn: true,
