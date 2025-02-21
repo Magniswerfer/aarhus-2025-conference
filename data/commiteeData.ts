@@ -117,10 +117,7 @@ export const critiquesCommittee: CommitteeMember[] = [
   { name: "Nora O'Murchu", affiliation: "University of Limerick" },
   { name: "Olga Goriunova", affiliation: "Royal Holloway, London" },
   { name: "Lai Tze Fan", affiliation: "University of Waterloo, Canada" },
-  {
-    name: "Kristina Andersen",
-    affiliation: "Eindhoven University of Technology",
-  },
+  {name: "Sharon Lindberg", affiliation: "Stockholm University"},
   {
     name: "Alexandra (Sasha) Anikina",
     affiliation: "University of Southampton",
@@ -133,7 +130,6 @@ export const critiquesCommittee: CommitteeMember[] = [
       "Institute Experimental Design and Media Cultures (IXDM), Basel",
   },
   { name: "Nishant Shah", affiliation: "The Chinese University of Hong Kong" },
-  { name: "Chiara Rossitto", affiliation: "Stockholm University" },
   { name: "Marc Hassenzahl", affiliation: "University of Siegen" },
   { name: "Gabriel Pereira", affiliation: "University of Amsterdam" },
   { name: "Anna Vallgårda", affiliation: "IT University of Copenhagen" },

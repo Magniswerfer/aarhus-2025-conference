@@ -1,13 +1,11 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../layouts/layout.tsx";
 
-// Define committee member type
 interface CommitteeMember {
   name: string;
   affiliation: string;
 }
 
-// Define committee type
 interface Committee {
   title: string;
   members: CommitteeMember[];
@@ -30,7 +28,7 @@ const MailIcon = () => (
     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
   </svg>
 );
-// Committee data
+
 const committees: Committee[] = [
   {
     title: "General Chairs",
@@ -61,7 +59,7 @@ const committees: Committee[] = [
     title: "Critiques Chairs",
     members: [
       { name: "Ida Larsen-Ledet", affiliation: "University College Cork" },
-      { name: "Marie Louise Juul Søndergaard", affiliation: "Oslo School of Architecture and Design" },
+      { name: "Dag Svanæs", affiliation: "Norwegian University of Science and Technology" },
       { name: "Jussi Parikka", affiliation: "Aarhus University" },
     ],
     email: "critique-chairs.aarhus2025@maillist.au.dk"
@@ -122,7 +120,6 @@ export default function OrganizersPage() {
         <meta name="description" content="Meet the organising committee of the Aarhus 2025 Conference" />
       </Head>
       <Layout>
-        {/* Hero Section */}
         <div class="bg-aarhus-red py-20">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
@@ -133,8 +130,6 @@ export default function OrganizersPage() {
             </p>
           </div>
         </div>
-
-        {/* Main Content */}
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             {committees.map((committee) => (
@@ -161,11 +156,14 @@ export default function OrganizersPage() {
                     </li>
                   ))}
                 </ul>
+                {committee.title === "Critiques Chairs" && (
+                  <p class="mt-4 text-sm text-gray-600 italic">
+                    Thank you to former Critiques Chair, Marie Louise Juul Søndergaard.
+                  </p>
+                )}
               </div>
             ))}
           </div>
-
-          {/* Note about changes */}
           <div class="mt-12 bg-gray-50 p-6 rounded-lg">
             <p class="text-gray-600 text-sm">
               The organising committee information is subject to updates.
