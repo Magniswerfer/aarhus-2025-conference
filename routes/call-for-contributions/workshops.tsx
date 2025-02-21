@@ -1,58 +1,99 @@
-// routes/call-for-contributions/papers.tsx
+// routes/call-for-contributions/workshops.tsx
+import { h } from "preact";
 import { Head } from "$fresh/runtime.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
 import SubmissionDates from "../../components/SubmissionDates.tsx";
+import { BlockContent, parseContent, submissionPageQuery } from "../../utils/sanityParser.tsx";
+import { client } from "../../utils/sanity.ts";
 
-export default function WorkshopsPage() {
-  const content = [
-    "Workshops are based on participants’ active engagement and contribution. Participants prepare in advance to share perspectives, knowledge, and interest in the workshop theme. The outcomes of workshops include heightened sensitivity to new issues, joint publications and research programs as well as critical yet friendly feedback on emerging ideas. Often, they establish or solidify research networks and contribute to community building.",
-    "Successful workshops should make full use of the workshop format, avoiding conference-style paper presentations, and instead prioritise debate and joint action. Proposals that reach out to other disciplines and traditions, as well as to industry, art, activism, and other practices to advance constructive and critical discussions are welcomed. Successful proposals clearly explain the aim and relevance of the workshop, intended audience, planned activities, expected outcomes and impact for the intended community.",
-    "The selection process is curated. Workshop selection will happen by the discretion of the Workshop Chairs. Acceptance of proposals will be informed by factors such as:",
-    {
-      type: "list",
-      content: [
-        "Clarity of intended outcomes, quality of the workshop programme, and value for the participants ",
-        "Prospective participants: Who are they likely to be, and how many could join? Profiles and number of prospective participants",
-        "Impact and relevance: How does it connect to the conference theme and how does it provide lasting impact to the communities it engages?",
-      ],
-    },
-    "Submissions should NOT be anonymised. Submissions can be up to four pages long (excluding references) in the ACM standard single-column format that we use for the reviewing phase.",
-  ];
+interface PageData {
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt: string;
+  content: BlockContent[];
+  submissionDates?: {
+    deadline: string;
+    notification: string;
+    cameraReady?: string;
+  }| null; // <-- Allow null explicitly;
+  error?: string;
+}
+
+const SUBMISSION_TYPE = 'workshops';
+const DEFAULT_DESCRIPTION = "Workshops are spaces for debate and co-development of ideas and approaches related to the advancement of research and practice within the theme of 'Computing (X) Crisis'.";
+
+export const handler: Handlers<PageData> = {
+  async GET(_req, ctx) {
+    try {
+      const data = await client.fetch(submissionPageQuery(SUBMISSION_TYPE));
+      
+      if (!data) {
+        throw new Error("No data from Sanity");
+      }
+
+      return ctx.render({
+        title: data.title || SUBMISSION_TYPE,
+        description: data.description || DEFAULT_DESCRIPTION,
+        imageUrl: data.imageUrl || "/images/ws.png",
+        imageAlt: data.imageAlt || "Workshop illustration",
+        content: Array.isArray(data.content) ? data.content : [],
+        submissionDates: data.submissionDates
+      });
+    } catch (error) {
+      console.error("Error fetching Sanity data:", error);
+      return ctx.render({
+        title: SUBMISSION_TYPE,
+        description: DEFAULT_DESCRIPTION,
+        imageUrl: "/images/ws.png",
+        imageAlt: "Workshop illustration",
+        content: [],
+        submissionDates: null,
+        error: "Failed to load content. Please try again later.",
+      });
+    }
+  },
+};
+
+export default function WorkshopsPage({ data }: PageProps<PageData>) {
+  const { title, description, imageUrl, imageAlt, content, submissionDates, error } = data;
+  const parsedContent = parseContent(Array.isArray(content) ? content : []);
 
   return (
     <>
       <Head>
-        <title>Workshops | Aarhus 2025</title>
-        <meta
-          name="description"
-          content="Submit critiques that challenge the status quo of computing and spark thought-provoking discussions."
-        />
+        <title>{`${title} | Aarhus 2025`}</title>
+        <meta name="description" content={description} />
       </Head>
       <Layout>
         <div class="bg-aarhus-red">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <h1 class="text-6xl font-bold text-white mb-6">
-              Workshops
-            </h1>
-            <p class="text-xl text-white/90 max-w-3xl">
-              Workshops are spaces for debate and co-development of ideas and
-              approaches related to the advancement of research and practice
-              within the theme of 'Computing (X) Crisis'.
-            </p>
+            <h1 class="text-6xl font-bold text-white mb-6">{title}</h1>
+            <p class="text-xl text-white/90 max-w-3xl">{description}</p>
           </div>
         </div>
 
+        {error && (
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 bg-red-50 text-red-600 rounded-md">
+            {error}
+          </div>
+        )}
+
         <ContentSection
-          content={content}
-          imageSrc="/images/ws.png"
-          imageAlt="Workshop illustration"
+          content={parsedContent}
+          imageSrc={imageUrl}
+          imageAlt={imageAlt}
           imagePosition="right"
         />
-        <SubmissionDates
-          submissionType="Workshops"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-        />
+
+        {submissionDates && (
+          <SubmissionDates
+            dates={submissionDates}
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+          />
+        )}
       </Layout>
     </>
   );
