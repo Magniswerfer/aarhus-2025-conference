@@ -10,8 +10,8 @@ type Conference = {
   year: number;
   title: string;
   description: string;
-  proceedingsImage: string;
-  proceedingsLinks: ProceedingsLink[];
+  proceedingsImage?: string;
+  proceedingsLinks?: ProceedingsLink[];
   supplementaryLinks?: Array<{
     title: string;
     url: string;

@@ -69,7 +69,6 @@ export default function DemosPage({ data }: PageProps<PageData>) {
         <title>{`${title} | Aarhus 2025`}</title>
         <meta name="description" content={description} />
       </Head>
-      <Layout>
         <div class="flex flex-col flex-1">
           <div class="bg-aarhus-red">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -100,7 +99,6 @@ export default function DemosPage({ data }: PageProps<PageData>) {
             )}
           </div>
         </div>
-      </Layout>
     </>
   );
 }

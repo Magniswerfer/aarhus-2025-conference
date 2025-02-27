@@ -1,5 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import Layout from "../layouts/layout.tsx";
+import { client } from "../utils/sanity.ts";
+import { FreshContext, Handlers } from "$fresh/server.ts";
 
 interface CommitteeMember {
   name: string;
@@ -10,6 +12,14 @@ interface Committee {
   title: string;
   members: CommitteeMember[];
   email?: string;
+  specialNote?: string;
+}
+
+interface OrganizersData {
+  title: string;
+  description: string;
+  committees: Committee[];
+  footerNote: string;
 }
 
 const MailIcon = () => (
@@ -29,104 +39,82 @@ const MailIcon = () => (
   </svg>
 );
 
-const committees: Committee[] = [
-  {
-    title: "General Chairs",
-    members: [
-      { name: "Morten Kyng", affiliation: "Aarhus University" },
-      { name: "Lone Koefoed Hansen", affiliation: "Aarhus University" },
-      { name: "Clemens Klokmose", affiliation: "Aarhus University" },
-    ],
-    email: "general-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Program Chairs",
-    members: [
-      { name: "Susanne Bødker", affiliation: "Aarhus University" },
-      { name: "Alex Taylor", affiliation: "University of Edinburgh" },
-      { name: "Eva Eriksson", affiliation: "Aarhus University" },
-    ],
-    email: "paper-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Proceedings Chair",
-    members: [
-      { name: "Niels Olof Bouvin", affiliation: "Aarhus University" },
-    ],
-    email: "proceeding-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Critiques Chairs",
-    members: [
-      { name: "Ida Larsen-Ledet", affiliation: "University College Cork" },
-      { name: "Dag Svanæs", affiliation: "Norwegian University of Science and Technology" },
-      { name: "Jussi Parikka", affiliation: "Aarhus University" },
-    ],
-    email: "critique-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Work-in-Progress Chairs",
-    members: [
-      { name: "Eve Hoggan", affiliation: "Aarhus University" },
-      { name: "Valkyrie Savage", affiliation: "Copenhagen University" },
-    ],
-    email: "work-in-progress-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Student Volunteer Chair",
-    members: [
-      { name: "Magnus Høholt Kaspersen", affiliation: "Aarhus University" },
-    ],
-    email: "student-volunteer-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Workshop Chairs",
-    members: [
-      { name: "Jonas Frich", affiliation: "Aarhus University" },
-      { name: "Midas Nouwens", affiliation: "Aarhus University" },
-    ],
-    email: "workshop-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Doctoral Consortium Chairs",
-    members: [
-      { name: "Ignacio Avellino", affiliation: "Sorbonne Université" },
-      { name: "Minna Pakanen", affiliation: "Aarhus University" },
-    ],
-    email: "doctoral-consortium-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Demonstration Chairs",
-    members: [
-      { name: "Rikke Hagensby Jensen", affiliation: "Aarhus University" },
-      { name: "Michael Wessely", affiliation: "Aarhus University" }
-    ],
-    email: "demo-chairs.aarhus2025@maillist.au.dk"
-  },
-  {
-    title: "Web & Graphics Chairs",
-    members: [
-      { name: "Magnus Høholt Kaspersen", affiliation: "Aarhus University" },
-      { name: "Majken Kirkegaard Rasmussen", affiliation: "Aarhus University" },
-    ]
-  },
-];
+// Fallback data in case the fetch fails
+const fallbackData: OrganizersData = {
+  title: "Organisers",
+  description: "Meet the dedicated team behind the Aarhus 2025 Conference organisation",
+  committees: [
+    {
+      title: "General Chairs",
+      members: [
+        { name: "Morten Kyng", affiliation: "Aarhus University" },
+        { name: "Lone Koefoed Hansen", affiliation: "Aarhus University" },
+        { name: "Clemens Klokmose", affiliation: "Aarhus University" },
+      ],
+      email: "general-chairs.aarhus2025@maillist.au.dk"
+    },
+    // Add all your other committees here as fallback
+  ],
+  footerNote: "The organising committee information is subject to updates. Please check back regularly for the most current information."
+};
 
-export default function OrganizersPage() {
+export const handler: Handlers<OrganizersData> = {
+  async GET(_req: Request, ctx: FreshContext): Promise<Response> {
+    try {
+      // First check if we can get any data at all
+      const allDocuments = await client.fetch(`*[_type == "organisers"]`);
+      //console.log("All organizers documents:", allDocuments);
+      
+      // If we have documents, try to get the first one
+      if (allDocuments && allDocuments.length > 0) {
+        // Use a simpler query first
+        const data = allDocuments[0];
+        //console.log("Using first document:", data);
+        
+        // Create a properly structured object that matches our interface
+        const structuredData: OrganizersData = {
+          title: data.title || "Organisers",
+          description: data.description || fallbackData.description,
+          committees: Array.isArray(data.committees) ? data.committees.map((committee: any) => ({
+            title: committee.title || "",
+            email: committee.email || undefined,
+            specialNote: committee.specialNote || undefined,
+            members: Array.isArray(committee.members) ? committee.members.map((member: any) => ({
+              name: member.name || "",
+              affiliation: member.affiliation || ""
+            })) : []
+          })) : fallbackData.committees,
+          footerNote: data.footerNote || fallbackData.footerNote
+        };
+        
+        return ctx.render(structuredData);
+      }
+      
+      //console.log("No documents found, using fallback data");
+      return ctx.render(fallbackData);
+    } catch (error) {
+      //console.error("Error fetching organizers data:", error);
+      return ctx.render(fallbackData);
+    }
+  }
+};
+
+export default function OrganizersPage({ data }: { data: OrganizersData }) {
+  const { title, description, committees, footerNote } = data;
+  
   return (
     <>
       <Head>
-        <title>Organisers | Aarhus 2025</title>
-        <meta name="description" content="Meet the organising committee of the Aarhus 2025 Conference" />
+        <title>{title || "Organisers"} | Aarhus 2025</title>
+        <meta name="description" content={description} />
       </Head>
-      <Layout>
         <div class="bg-aarhus-red py-20">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-              Organisers
+              {title || "Organisers"}
             </h1>
             <p class="text-xl text-white/90 max-w-3xl">
-              Meet the dedicated team behind the Aarhus 2025 Conference organisation
+              {description}
             </p>
           </div>
         </div>
@@ -156,9 +144,9 @@ export default function OrganizersPage() {
                     </li>
                   ))}
                 </ul>
-                {committee.title === "Critiques Chairs" && (
+                {committee.specialNote && (
                   <p class="mt-4 text-sm text-gray-600 italic">
-                    Thank you to former Critiques Chair, Marie Louise Juul Søndergaard.
+                    {committee.specialNote}
                   </p>
                 )}
               </div>
@@ -166,12 +154,10 @@ export default function OrganizersPage() {
           </div>
           <div class="mt-12 bg-gray-50 p-6 rounded-lg">
             <p class="text-gray-600 text-sm">
-              The organising committee information is subject to updates.
-              Please check back regularly for the most current information.
+              {footerNote}
             </p>
           </div>
         </div>
-      </Layout>
     </>
   );
 }

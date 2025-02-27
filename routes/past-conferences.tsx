@@ -1,11 +1,10 @@
 import { PageProps } from "$fresh/server.ts";
-import Layout from "../layouts/layout.tsx";
 import ConferenceTimeline from "../islands/ConferenceTimeline.tsx";
 import { conferences } from "../data/previousConferences.ts";
 
 export default function HistoryPage(props: PageProps) {
   return (
-    <Layout title="Past Conferences - Aarhus 2025">
+    <>
       <div class="bg-aarhus-red mb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h1 class="text-6xl font-bold text-white mb-6">
@@ -20,6 +19,6 @@ export default function HistoryPage(props: PageProps) {
       <div class="container mx-auto px-4 py-8">
         <ConferenceTimeline conferences={conferences} />
       </div>
-    </Layout>
+    </>
   );
 }

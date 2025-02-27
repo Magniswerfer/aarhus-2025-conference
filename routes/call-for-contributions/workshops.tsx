@@ -67,7 +67,6 @@ export default function WorkshopsPage({ data }: PageProps<PageData>) {
         <title>{`${title} | Aarhus 2025`}</title>
         <meta name="description" content={description} />
       </Head>
-      <Layout>
         <div class="bg-aarhus-red">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <h1 class="text-6xl font-bold text-white mb-6">{title}</h1>
@@ -94,7 +93,6 @@ export default function WorkshopsPage({ data }: PageProps<PageData>) {
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
           />
         )}
-      </Layout>
     </>
   );
 }

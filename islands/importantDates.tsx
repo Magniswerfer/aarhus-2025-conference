@@ -59,12 +59,18 @@ export default function ImportantDates() {
 
   const groupedSubmissions = groupByDeadline(submissionTypes);
 
+  // Convert the grouped object into an array and sort by deadline date (earliest first)
+  const sortedGroupedSubmissions = Object.entries(groupedSubmissions).sort(
+    ([deadlineA], [deadlineB]) =>
+      new Date(deadlineA).getTime() - new Date(deadlineB).getTime()
+  );
+
   return (
     <div class="mb-8 md:mb-0 md:col-span-2">
       <h3 class="font-roboto-condensed font-bold text-lg mb-4">IMPORTANT DATES</h3>
       <p class="font-bold mb-4">All dates are AoE, Anytime on Earth</p>
       <div class="space-y-6">
-        {Object.entries(groupedSubmissions).map(([deadline, submissions]) => (
+        {sortedGroupedSubmissions.map(([deadline, submissions]) => (
           <div key={deadline} class="space-y-2">
             <h4 class="font-roboto-condensed font-bold text-white/80">
               {submissions.map((s) => s.names.join(", ")).join(", ")}

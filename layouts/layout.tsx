@@ -1,32 +1,25 @@
 // layouts/layout.tsx
-import { Head } from "$fresh/runtime.ts";
-import Navigation from "../islands/Navigation.tsx";
+import { ComponentChildren } from "preact";
+import StaticNavigation from "../components/StaticNavigation.tsx";
 import Footer from "../components/Footer.tsx";
+import type { NavigationItem } from "../components/StaticNavigation.tsx";
 
 interface LayoutProps {
-  children: preact.ComponentChildren;
-  title?: string;
+  children: ComponentChildren;
+  navigationItems?: NavigationItem[];
+  currentPath: string; // new required prop
 }
 
-export default function Layout(
-  { children, title = "Aarhus 2025 Conference" }: LayoutProps,
-) {
+export default function Layout({
+  children,
+  navigationItems = [],
+  currentPath,
+}: LayoutProps) {
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-      <div class="min-h-screen flex flex-col">
-        <Navigation />
-        <main class="flex-1">
-          {children}
-        </main>
-        <Footer />
-      </div>
-    </>
+    <div class="min-h-screen flex flex-col">
+      <StaticNavigation items={navigationItems} currentPath={currentPath} />
+      <main class="flex-1">{children}</main>
+      <Footer />
+    </div>
   );
 }

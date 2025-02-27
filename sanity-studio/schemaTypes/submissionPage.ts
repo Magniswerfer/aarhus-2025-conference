@@ -1,6 +1,6 @@
 export default {
     name: 'submissionPage',
-    title: 'Submission Page',
+    title: 'Submission Pages',
     type: 'document',
     fields: [
       {
