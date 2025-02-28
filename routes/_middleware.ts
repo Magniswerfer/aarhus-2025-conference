@@ -15,7 +15,7 @@ export async function handler(req: Request, ctx: FreshContext) {
       // Fetch navigation data
       cachedNavigation = await getNavigationItems();
       lastFetchTime = now;
-      console.log("Navigation data refreshed");
+      //console.log("Navigation data refreshed");
     } catch (error) {
       console.error("Error fetching navigation:", error);
       // If there's an error and we don't have cached data, use an empty array
