@@ -17,6 +17,7 @@ interface NavigationItem {
 // Default static links that should always be present
 const staticLinks: NavigationItem[] = [
   { path: "/", label: "HOME", hasDropdown: false, order: 10 },
+  { path: "/programme", label: "PROGRAMME", hasDropdown: false, order: 15 },
   {
     path: "/call-for-contributions",
     label: "CALL FOR CONTRIBUTIONS",

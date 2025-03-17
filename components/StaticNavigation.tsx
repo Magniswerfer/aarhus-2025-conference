@@ -26,11 +26,12 @@ export default function StaticNavigation(
 ) {
   const staticLinks: NavigationItem[] = [
     { path: "/", label: "HOME", hasDropdown: false, order: 1 },
+    { path: "/programme", label: "PROGRAMME", hasDropdown: false, order: 2 },
     {
       path: "/call-for-contributions",
       label: "CALL FOR CONTRIBUTIONS",
       hasDropdown: true,
-      order: 2,
+      order: 3,
       dropdownItems: [
         { path: "/call-for-contributions/papers", label: "PAPERS" },
         { path: "/call-for-contributions/critiques", label: "CRITIQUES" },
@@ -50,9 +51,9 @@ export default function StaticNavigation(
       path: "/past-conferences",
       label: "PAST CONFERENCES",
       hasDropdown: false,
-      order: 5,
+      order: 4,
     },
-    { path: "/organisers", label: "ORGANISERS", hasDropdown: false, order: 9 },
+    { path: "/organisers", label: "ORGANISERS", hasDropdown: false, order: 5 },
   ];
 
   // Use provided items if the array has items; otherwise, fall back to static links.

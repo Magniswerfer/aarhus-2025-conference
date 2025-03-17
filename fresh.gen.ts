@@ -19,7 +19,9 @@ import * as $call_for_contributions_workshops from "./routes/call-for-contributi
 import * as $index from "./routes/index.tsx";
 import * as $organisers from "./routes/organisers.tsx";
 import * as $past_conferences from "./routes/past-conferences.tsx";
+import * as $programme from "./routes/programme.tsx";
 import * as $ConferenceTimeline from "./islands/ConferenceTimeline.tsx";
+import * as $ExpandableBio from "./islands/ExpandableBio.tsx";
 import * as $History from "./islands/History.tsx";
 import * as $MobileMenu from "./islands/MobileMenu.tsx";
 import * as $NavDropdown from "./islands/NavDropdown.tsx";
@@ -51,9 +53,11 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/organisers.tsx": $organisers,
     "./routes/past-conferences.tsx": $past_conferences,
+    "./routes/programme.tsx": $programme,
   },
   islands: {
     "./islands/ConferenceTimeline.tsx": $ConferenceTimeline,
+    "./islands/ExpandableBio.tsx": $ExpandableBio,
     "./islands/History.tsx": $History,
     "./islands/MobileMenu.tsx": $MobileMenu,
     "./islands/NavDropdown.tsx": $NavDropdown,
