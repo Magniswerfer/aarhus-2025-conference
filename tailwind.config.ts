@@ -7,6 +7,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'md1': '900px',
+        'xl1': '1200px',
+      },
       colors: {
         'aarhus-red': '#b00000',
       },

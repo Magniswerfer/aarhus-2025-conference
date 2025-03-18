@@ -1,6 +1,6 @@
 // islands/NavDropdown.tsx
 import { h } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 interface DropdownItem {
   path: string;
@@ -28,16 +28,16 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
     // Touch device detection
     const checkTouch = () => {
       setIsTouchDevice(
-        "ontouchstart" in window || 
-        (navigator && navigator.maxTouchPoints > 0)
+        "ontouchstart" in window ||
+          (navigator && navigator.maxTouchPoints > 0),
       );
     };
 
     checkTouch();
-    
+
     const touchHandler = () => setIsTouchDevice(true);
     window.addEventListener("touchstart", touchHandler, { once: true });
-    
+
     // Click outside handler
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -45,31 +45,29 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
         setActiveDropdown(false);
       }
     };
-    
+
     document.addEventListener("click", handleClickOutside);
-    
+
     return () => {
       window.removeEventListener("touchstart", touchHandler);
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  
+
   const handleDropdownClick = (e: MouseEvent) => {
     if (isTouchDevice) {
       e.stopPropagation();
       setActiveDropdown(!activeDropdown);
     }
   };
-  
+
   return (
     <div class="py-4 dropdown-container">
       <div class="flex items-center">
         <a
           href={link.path}
           class={`text-black uppercase text-base hover:opacity-90 ${
-            currentPath === link.path
-              ? "opacity-100 font-bold"
-              : "opacity-60"
+            currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
           }`}
         >
           {link.label}
@@ -95,7 +93,7 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
         </button>
       </div>
       <div
-        class={`absolute left-0 top-full w-64 bg-white shadow-lg rounded-b-md py-2 z-50 transition-opacity duration-200 ${
+        class={`absolute top-full left-0 right-0 w-full md:left-auto md:right-0 md:w-auto bg-white shadow-lg rounded-b-md py-2 z-50 transition-opacity duration-200 ${
           !isTouchDevice
             ? "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
             : activeDropdown
@@ -107,10 +105,8 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
           <a
             key={item.path}
             href={item.path}
-            class={`block px-4 py-2 text-sm text-black hover:bg-gray-100 ${
-              currentPath === item.path
-                ? "font-bold"
-                : "opacity-60"
+            class={`block px-4 py-2 text-sm text-black hover:bg-gray-100 whitespace-nowrap ${
+              currentPath === item.path ? "font-bold" : "opacity-60"
             }`}
           >
             {item.label}

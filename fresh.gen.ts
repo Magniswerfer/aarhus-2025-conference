@@ -8,7 +8,6 @@ import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_nav from "./routes/api/nav.tsx";
 import * as $api_submission_dates from "./routes/api/submission-dates.tsx";
-import * as $api_test from "./routes/api/test.tsx";
 import * as $call_for_contributions from "./routes/call-for-contributions.tsx";
 import * as $call_for_contributions_critiques from "./routes/call-for-contributions/critiques.tsx";
 import * as $call_for_contributions_demos from "./routes/call-for-contributions/demos.tsx";
@@ -37,7 +36,6 @@ const manifest = {
     "./routes/_middleware.ts": $_middleware,
     "./routes/api/nav.tsx": $api_nav,
     "./routes/api/submission-dates.tsx": $api_submission_dates,
-    "./routes/api/test.tsx": $api_test,
     "./routes/call-for-contributions.tsx": $call_for_contributions,
     "./routes/call-for-contributions/critiques.tsx":
       $call_for_contributions_critiques,

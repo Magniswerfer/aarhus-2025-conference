@@ -72,7 +72,7 @@ export default function StaticNavigation(
         </a>
 
         {/* Desktop/Tablet Navigation */}
-        <div class="hidden md:flex absolute inset-0 justify-center">
+        <div class="hidden xl1:flex absolute inset-0 justify-center">
           <div class="flex items-center space-x-8 font-roboto-condensed">
             {sortedNavigationItems.map((link) => (
               <div key={link.path} class="relative dropdown-container group">
