@@ -18,6 +18,10 @@ interface PageData {
     deadline: string;
     notification: string;
     cameraReady?: string;
+    customDates?: Array<{
+      date: string;
+      label: string;
+    }>;
   } | null;
   error?: string;
 }
@@ -43,7 +47,15 @@ export const handler: Handlers<PageData> = {
         imageUrl: data.imageUrl,
         imageAlt: data.imageAlt,
         content: Array.isArray(data.content) ? data.content : [],
-        submissionDates: data.submissionDates || null,
+        submissionDates: data.submissionDates ? {
+          ...data.submissionDates,
+          customDates: [
+            {
+              date: "19th August 2025",
+              label: "Doctoral Consortium"
+            }
+          ]
+        } : null,
       });
     } catch (error) {
       console.error("Error fetching Sanity data:", error);

@@ -2,6 +2,10 @@ interface SubmissionDates {
   deadline: string;
   notification: string;
   cameraReady?: string;
+  customDates?: Array<{
+    date: string;
+    label: string;
+  }>;
 }
 
 interface SubmissionDatesProps {
@@ -41,6 +45,12 @@ const SubmissionDates = ({
               <div className="text-gray-600">Camera Ready</div>
             </div>
           )}
+          {dates.customDates?.map((customDate, index) => (
+            <div key={index} className="bg-gray-50 p-4 rounded-lg">
+              <div className="font-bold text-lg mb-1">{customDate.date}</div>
+              <div className="text-gray-600">{customDate.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
