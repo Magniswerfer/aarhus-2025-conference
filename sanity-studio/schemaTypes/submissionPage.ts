@@ -12,7 +12,7 @@ export default {
             {title: 'Papers', value: 'papers'},
             {title: 'Critiques', value: 'critiques'},
             {title: 'Workshops', value: 'workshops'},
-            {title: 'Work in Progress', value: 'wip'},
+            {title: 'Work in Progress', value: 'work-in-progress'},
             {title: 'Demos', value: 'demos'},
             {title: 'Doctoral Consortium', value: 'doctoral-consortium'}
           ]
@@ -52,6 +52,55 @@ export default {
             name: 'cameraReady',
             title: 'Camera Ready',
             type: 'string'
+          },
+          {
+            name: 'customDates',
+            title: 'Custom Dates',
+            type: 'array',
+            of: [
+              {
+                type: 'object',
+                fields: [
+                  {
+                    name: 'date',
+                    title: 'Date',
+                    type: 'string',
+                    validation: Rule => Rule.required()
+                  },
+                  {
+                    name: 'label',
+                    title: 'Label',
+                    type: 'string',
+                    validation: Rule => Rule.required()
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'conferenceDates',
+        title: 'Conference Dates',
+        type: 'object',
+        fields: [
+          {
+            name: 'startDate',
+            title: 'Start Date',
+            type: 'string',
+            validation: Rule => Rule.required()
+          },
+          {
+            name: 'endDate',
+            title: 'End Date',
+            type: 'string',
+            validation: Rule => Rule.required()
+          },
+          {
+            name: 'location',
+            title: 'Location',
+            type: 'string',
+            validation: Rule => Rule.required()
           }
         ]
       },
