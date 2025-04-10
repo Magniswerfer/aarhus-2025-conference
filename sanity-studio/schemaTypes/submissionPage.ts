@@ -80,31 +80,6 @@ export default {
         ]
       },
       {
-        name: 'conferenceDates',
-        title: 'Conference Dates',
-        type: 'object',
-        fields: [
-          {
-            name: 'startDate',
-            title: 'Start Date',
-            type: 'string',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'endDate',
-            title: 'End Date',
-            type: 'string',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'location',
-            title: 'Location',
-            type: 'string',
-            validation: Rule => Rule.required()
-          }
-        ]
-      },
-      {
         name: 'content',
         title: 'Content',
         type: 'array',
