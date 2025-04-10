@@ -31,19 +31,6 @@ export default defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
-      name: 'layoutType',
-      title: 'Layout Type',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Standard Full Width', value: 'standard'},
-          {title: 'Two Column with Image', value: 'twoColumn'}
-        ],
-      },
-      initialValue: 'standard',
-      validation: (Rule) => Rule.required()
-    }),
-    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',
@@ -102,6 +89,19 @@ export default defineType({
           type: 'string'
         }
       ]
+    }),
+    defineField({
+      name: 'layoutType',
+      title: 'Layout Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Standard Full Width', value: 'standard'},
+          {title: 'Two Column with Image', value: 'twoColumn'}
+        ],
+      },
+      initialValue: 'standard',
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: 'imagePosition',

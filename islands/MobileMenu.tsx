@@ -1,6 +1,6 @@
 // islands/MobileMenu.tsx
 import { h } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 interface DropdownItem {
   path: string;
@@ -25,6 +25,24 @@ export default function MobileMenu(
 ) {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    // Click outside handler
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".mobile-menu-container")) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <>
       {/* Mobile Menu Button */}
@@ -38,7 +56,7 @@ export default function MobileMenu(
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div class="absolute top-full left-0 right-0 w-full md:left-auto md:right-0 md:w-auto bg-white shadow-lg xl1:hidden z-50">
+        <div class="mobile-menu-container absolute top-full left-0 right-0 w-full md:left-auto md:right-0 md:w-auto bg-white shadow-lg xl1:hidden z-50">
           {navigationItems.map((link) => (
             <div key={link.path}>
               {/* Main navigation item */}

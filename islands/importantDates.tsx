@@ -72,7 +72,6 @@ export default function ImportantDates() {
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const data: ApiResponse = await response.json();
-        console.log("Received data from API:", data);
 
         if (!data.submissions || !Array.isArray(data.submissions)) {
           throw new Error("Expected submissions to be an array");
@@ -123,7 +122,10 @@ export default function ImportantDates() {
         {sortedGroupedSubmissions.map(([, submissions]) => {
           const submission = submissions[0];
           return (
-            <div key={submission.dates.deadline} class="space-y-2">
+            <div
+              key={`${submission.dates.deadline}-${submission.type}`}
+              class="space-y-2"
+            >
               <div class="flex flex-wrap gap-2">
                 {submissions.map((s) => (
                   <a

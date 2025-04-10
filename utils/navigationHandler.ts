@@ -17,7 +17,16 @@ interface NavigationItem {
 // Default static links that should always be present
 const staticLinks: NavigationItem[] = [
   { path: "/", label: "HOME", hasDropdown: false, order: 10 },
-  { path: "/programme", label: "PROGRAMME", hasDropdown: false, order: 15 },
+  {
+    path: "/attendance",
+    label: "ATTENDANCE",
+    hasDropdown: true,
+    order: 15,
+    dropdownItems: [
+      { path: "/programme", label: "PROGRAMME" },
+      { path: "/registration", label: "REGISTRATION" },
+    ],
+  },
   {
     path: "/call-for-contributions",
     label: "CALL FOR CONTRIBUTIONS",
@@ -38,44 +47,88 @@ const staticLinks: NavigationItem[] = [
 
 export async function getNavigationItems(): Promise<NavigationItem[]> {
   try {
-    // Fetch dynamic navigation items from Sanity
+    // Fetch only top-level navigation items from Sanity
     const data = await client.fetch(`
-      *[_type == "page" && showInNavigation == true] | order(navigationOrder asc) {
+      *[_type == "navigationItem" && isTopLevel == true] | order(order asc) {
+        _id,
         title,
-        "slug": slug.current,
-        navigationOrder
+        type,
+        linkType,
+        order,
+        pageReference->{
+          _type,
+          "slug": slug.current
+        },
+        customPath,
+        dropdownItems[]->{
+          _id,
+          title,
+          linkType,
+          pageReference->{
+            _type,
+            "slug": slug.current
+          },
+          customPath
+        }
       }
     `);
     
-    // Format the dynamic links
-    const dynamicLinks = data.map((page: any) => ({
-      path: `/${page.slug}`,
-      label: page.title.toUpperCase(),
-      hasDropdown: false,
-      order: page.navigationOrder || 30 + Math.random() * 10
-    }));
+    console.log('Raw navigation data from Sanity:', data);
     
-    // Combine static and dynamic links
-    const allLinks = [...staticLinks];
-    
-    // Add dynamic links (avoiding duplicates)
-    dynamicLinks.forEach((link: NavigationItem) => {
-      if (!allLinks.some(existingLink => existingLink.path === link.path)) {
-        allLinks.push(link);
-      } else {
-        // If the link exists, update its order from the dynamic version if needed
-        const existingLink = allLinks.find(el => el.path === link.path);
-        if (existingLink && link.order) {
-          existingLink.order = link.order;
+    // Format navigation items
+    const navigationItems = data.map((item: any) => {
+      const baseItem = {
+        label: item.title.toUpperCase(),
+        order: item.order,
+        hasDropdown: ['dropdown', 'dropdownWithLink'].includes(item.type)
+      };
+
+      // Get the path based on linkType and type
+      const getPath = (item: any) => {
+        if (item.linkType === 'page' && item.pageReference?.slug) {
+          return `/${item.pageReference.slug}`;
         }
+        if (item.linkType === 'custom' && item.customPath) {
+          return item.customPath;
+        }
+        return '#';
+      };
+
+      // Handle different types of navigation items
+      switch (item.type) {
+        case 'link':
+          return {
+            ...baseItem,
+            path: getPath(item)
+          };
+        case 'dropdown':
+          return {
+            ...baseItem,
+            path: '#',
+            dropdownItems: item.dropdownItems?.map((dropdownItem: any) => ({
+              path: getPath(dropdownItem),
+              label: dropdownItem.title.toUpperCase()
+            })) || []
+          };
+        case 'dropdownWithLink':
+          return {
+            ...baseItem,
+            path: getPath(item),
+            dropdownItems: item.dropdownItems?.map((dropdownItem: any) => ({
+              path: getPath(dropdownItem),
+              label: dropdownItem.title.toUpperCase()
+            })) || []
+          };
+        default:
+          return null;
       }
-    });
-    
-    // Sort all links by order
-    return allLinks.sort((a, b) => a.order - b.order);
+    }).filter(Boolean); // Remove any null items
+
+    console.log('Processed navigation items:', navigationItems);
+    return navigationItems;
   } catch (error) {
     console.error("Error fetching navigation items:", error);
-    // Fall back to static links if there's an error
-    return staticLinks;
+    // Return empty array if there's an error
+    return [];
   }
 }
