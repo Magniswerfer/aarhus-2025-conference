@@ -1,10 +1,17 @@
-import {
-  CONFERENCE_END_DATE,
-  CONFERENCE_LOCATION,
-  CONFERENCE_START_DATE,
-  quickLinks,
-} from "../data/conferenceDates.ts";
-import ImportantDates from "../islands/importantDates.tsx";
+import { useEffect, useState } from "preact/hooks";
+import ImportantDates from "./importantDates.tsx";
+
+interface ConferenceInfo {
+  startDate: string;
+  endDate: string;
+  location: string;
+}
+
+const CONFERENCE_INFO: ConferenceInfo = {
+  startDate: "18th August 2025",
+  endDate: "22nd August 2025",
+  location: "Aarhus, Denmark",
+};
 
 export default function Footer() {
   return (
@@ -23,9 +30,9 @@ export default function Footer() {
                 class="h-6 w-6 mr-4 mt-1"
               />
               <div class="font-roboto-condensed">
-                {CONFERENCE_START_DATE} - {CONFERENCE_END_DATE}
+                {CONFERENCE_INFO.startDate} - {CONFERENCE_INFO.endDate}
                 <br />
-                {CONFERENCE_LOCATION}
+                {CONFERENCE_INFO.location}
               </div>
             </div>
           </div>
@@ -39,16 +46,28 @@ export default function Footer() {
               QUICK LINKS
             </h3>
             <nav class="flex flex-col space-y-2">
-              <a href="/call-for-contributions" class="hover:text-gray-200 transition-colors">
+              <a
+                href="/call-for-contributions"
+                class="hover:text-gray-200 transition-colors"
+              >
                 Call for Contributions
               </a>
-              <a href="/author-guidelines" class="hover:text-gray-200 transition-colors">
+              <a
+                href="/author-guidelines"
+                class="hover:text-gray-200 transition-colors"
+              >
                 Author Guidelines
               </a>
-              <a href="/organisers" class="hover:text-gray-200 transition-colors">
+              <a
+                href="/organisers"
+                class="hover:text-gray-200 transition-colors"
+              >
                 Organisers
               </a>
-              <a href="https://new.precisionconference.com/submissions" class="hover:text-gray-200 transition-colors">
+              <a
+                href="https://new.precisionconference.com/submissions"
+                class="hover:text-gray-200 transition-colors"
+              >
                 Submission (PCS)
               </a>
             </nav>
@@ -61,10 +80,18 @@ export default function Footer() {
             <div class="font-roboto-condensed font-bold mb-2">
               HOSTED BY
             </div>
-            <img src="/images/aulogo_uk_var1_white.png" alt="Aarhus University" class="h-12" />
+            <img
+              src="/images/aulogo_uk_var1_white.png"
+              alt="Aarhus University"
+              class="h-12"
+            />
           </div>
           <div>
-            <img src="/images/ACM-In-Cooperation_medium_BW_homebrew.svg" alt="ACM Logo" class="h-16" />
+            <img
+              src="/images/ACM-In-Cooperation_medium_BW_homebrew.svg"
+              alt="ACM Logo"
+              class="h-16"
+            />
           </div>
         </div>
       </div>

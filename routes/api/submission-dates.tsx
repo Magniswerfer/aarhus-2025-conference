@@ -11,34 +11,72 @@ export const handler: Handlers = {
         "demos",
         "doctoral-consortium",
         "papers",
-        "wip",
+        "work-in-progress",
       ];
+
+      console.log("Fetching submission dates for types:", types);
 
       const results = await Promise.all(
         types.map(async (type) => {
-          const data = await client.fetch(submissionPageQuery(type));
-          return data?.submissionDates
-            ? {
-                type,
-                names: [data.title || type],
-                dates: data.submissionDates,
-              }
-            : null;
-        })
+          try {
+            const data = await client.fetch(submissionPageQuery(type));
+            console.log(`Data for ${type}:`, data);
+
+            if (!data) {
+              console.log(`No data found for ${type}`);
+              return null;
+            }
+
+            const result = {
+              type,
+              names: [data.title || type],
+              dates: data.submissionDates || null,
+              conferenceDates: data.conferenceDates || null,
+            };
+
+            console.log(`Result for ${type}:`, result);
+            return result;
+          } catch (err) {
+            console.error(`Error fetching ${type}:`, err);
+            return null;
+          }
+        }),
       );
 
       // Filter out null values
       const validResults = results.filter((item) => item !== null);
+      console.log("Valid results:", validResults);
 
-      return new Response(JSON.stringify(validResults), {
-        headers: { "Content-Type": "application/json" },
-      });
-    } catch (error) {
-      console.error("Error fetching submission dates:", error);
-      return new Response(JSON.stringify({ error: "Failed to fetch submission dates" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      // Find the first result that has conferenceDates
+      const conferenceDates = validResults.find((result) =>
+        result?.conferenceDates
+      )?.conferenceDates || null;
+      console.log("Conference dates:", conferenceDates);
+
+      return new Response(
+        JSON.stringify({
+          submissions: validResults,
+          conferenceDates,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    } catch (error: unknown) {
+      console.error("Error in submission-dates API:", error);
+      const errorMessage = error instanceof Error
+        ? error.message
+        : "Unknown error";
+      return new Response(
+        JSON.stringify({
+          error: "Failed to fetch submission dates",
+          details: errorMessage,
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
   },
 };

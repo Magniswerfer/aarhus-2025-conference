@@ -1,7 +1,6 @@
 // utils/sanityParser.tsx
 import { h, JSX } from "preact";
 
-
 export interface BlockContent {
   _type: string;
   _key: string;
@@ -31,32 +30,34 @@ export interface BlockContent {
 const renderTextContent = (
   child: { text: string; marks?: string[]; _key: string },
   idx: number,
-  markDefs?: { 
-    _key: string; 
-    _type: string; 
+  markDefs?: {
+    _key: string;
+    _type: string;
     href: string;
     targetBlank?: boolean;
-  }[]
+  }[],
 ): JSX.Element => {
   if (!child.text) {
     return <span key={idx}></span>;
   }
-  
+
   let content = child.text;
-  
+
   if (child.marks?.length) {
     // Handle links
     if (markDefs?.length) {
-      const linkMark = markDefs.find(def => child.marks?.includes(def._key));
+      const linkMark = markDefs.find((def) => child.marks?.includes(def._key));
       if (linkMark) {
         return (
-          <a 
+          <a
             href={linkMark.href}
             key={idx}
-            {...(linkMark.targetBlank ? {
-              target: "_blank",
-              rel: "noopener noreferrer"
-            } : {})}
+            {...(linkMark.targetBlank
+              ? {
+                target: "_blank",
+                rel: "noopener noreferrer",
+              }
+              : {})}
             class="text-aarhus-red hover:underline"
           >
             {content}
@@ -64,13 +65,13 @@ const renderTextContent = (
         );
       }
     }
-    
+
     // Handle strong text
-    if (child.marks.includes('strong')) {
+    if (child.marks.includes("strong")) {
       return <strong key={idx} class="font-semibold">{content}</strong>;
     }
   }
-  
+
   return <span key={idx}>{content}</span>;
 };
 
@@ -92,10 +93,10 @@ export function parseContent(content: BlockContent[]): JSX.Element[] {
 
         currentList.push(
           <li key={block._key || index} class="ml-6 mb-2">
-            {block.children?.map((child, idx) => 
+            {block.children?.map((child, idx) =>
               renderTextContent(child, idx, block.markDefs)
             )}
-          </li>
+          </li>,
         );
       } else {
         // Not a list item - flush any existing list
@@ -103,7 +104,7 @@ export function parseContent(content: BlockContent[]): JSX.Element[] {
           result.push(
             <ul key={`list-${index}`} class="list-disc ml-6 mb-4">
               {currentList}
-            </ul>
+            </ul>,
           );
           currentList = [];
           isInList = false;
@@ -113,31 +114,34 @@ export function parseContent(content: BlockContent[]): JSX.Element[] {
         switch (block.style) {
           case "h2":
             result.push(
-              <h2 key={block._key || index} class="text-3xl font-bold text-aarhus-red mb-4">
-                {block.children?.map((child, idx) => 
+              <h2
+                key={block._key || index}
+                class="text-3xl font-bold text-aarhus-red mb-4"
+              >
+                {block.children?.map((child, idx) =>
                   renderTextContent(child, idx, block.markDefs)
                 )}
-              </h2>
+              </h2>,
             );
             break;
 
           case "h3":
             result.push(
               <h3 key={block._key || index} class="text-2xl font-semibold mb-4">
-                {block.children?.map((child, idx) => 
+                {block.children?.map((child, idx) =>
                   renderTextContent(child, idx, block.markDefs)
                 )}
-              </h3>
+              </h3>,
             );
             break;
 
           default:
             result.push(
               <p key={block._key || index} class="mb-4">
-                {block.children?.map((child, idx) => 
+                {block.children?.map((child, idx) =>
                   renderTextContent(child, idx, block.markDefs)
                 )}
-              </p>
+              </p>,
             );
         }
       }
@@ -149,7 +153,7 @@ export function parseContent(content: BlockContent[]): JSX.Element[] {
     result.push(
       <ul key="final-list" class="list-disc mb-4">
         {currentList}
-      </ul>
+      </ul>,
     );
   }
 
@@ -157,7 +161,8 @@ export function parseContent(content: BlockContent[]): JSX.Element[] {
 }
 
 // GROQ query for fetching page content
-export const submissionPageQuery = (type: string) => `*[_type == "submissionPage" && type == "${type}"][0] {
+export const submissionPageQuery = (type: string) =>
+  `*[_type == "submissionPage" && type == "${type}"][0] {
   title,
   description,
   content[] {
@@ -172,5 +177,10 @@ export const submissionPageQuery = (type: string) => `*[_type == "submissionPage
   },
   "imageUrl": image.asset->url,
   "imageAlt": image.alt,
-  submissionDates
+  submissionDates,
+  conferenceDates {
+    startDate,
+    endDate,
+    location
+  }
 }`;

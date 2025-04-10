@@ -5,7 +5,11 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import Layout from "../../layouts/layout.tsx";
 import ContentSection from "../../components/ContentSection.tsx";
 import SubmissionDates from "../../components/SubmissionDates.tsx";
-import { parseContent, submissionPageQuery, BlockContent } from "../../utils/sanityParser.tsx";
+import {
+  BlockContent,
+  parseContent,
+  submissionPageQuery,
+} from "../../utils/sanityParser.tsx";
 import { client } from "../../utils/sanity.ts";
 
 interface PageData {
@@ -47,15 +51,7 @@ export const handler: Handlers<PageData> = {
         imageUrl: data.imageUrl,
         imageAlt: data.imageAlt,
         content: Array.isArray(data.content) ? data.content : [],
-        submissionDates: data.submissionDates ? {
-          ...data.submissionDates,
-          customDates: [
-            {
-              date: "19th August 2025",
-              label: "Doctoral Consortium"
-            }
-          ]
-        } : null,
+        submissionDates: data.submissionDates || null,
       });
     } catch (error) {
       console.error("Error fetching Sanity data:", error);
@@ -71,7 +67,15 @@ export const handler: Handlers<PageData> = {
 };
 
 export default function DoctoralConsortiumPage({ data }: PageProps<PageData>) {
-  const { title, description, imageUrl, imageAlt, content, submissionDates, error } = data;
+  const {
+    title,
+    description,
+    imageUrl,
+    imageAlt,
+    content,
+    submissionDates,
+    error,
+  } = data;
   const parsedContent = parseContent(Array.isArray(content) ? content : []);
 
   return (
@@ -80,34 +84,34 @@ export default function DoctoralConsortiumPage({ data }: PageProps<PageData>) {
         <title>{`${title} | Aarhus 2025`}</title>
         <meta name="description" content={description} />
       </Head>
-        <div class="bg-aarhus-red">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <h1 class="text-6xl font-bold text-white mb-6">{title}</h1>
-            <p class="text-xl text-white/90 max-w-3xl">{description}</p>
+      <div class="bg-aarhus-red">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <h1 class="text-6xl font-bold text-white mb-6">{title}</h1>
+          <p class="text-xl text-white/90 max-w-3xl">{description}</p>
+        </div>
+      </div>
+
+      <div class="flex-1 flex min-h-[20vh]">
+        {error && (
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 bg-red-50 text-red-600 rounded-md">
+            {error}
           </div>
-        </div>
-
-        <div class="flex-1 flex min-h-[20vh]">
-          {error && (
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 bg-red-50 text-red-600 rounded-md">
-              {error}
-            </div>
-          )}
-
-          <ContentSection
-            content={parsedContent}
-            imagePosition="right"
-            imageSrc={imageUrl}
-            imageAlt={imageAlt}
-          />
-        </div>
-
-        {submissionDates && (
-          <SubmissionDates
-            dates={submissionDates}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-          />
         )}
+
+        <ContentSection
+          content={parsedContent}
+          imagePosition="right"
+          imageSrc={imageUrl}
+          imageAlt={imageAlt}
+        />
+      </div>
+
+      {submissionDates && (
+        <SubmissionDates
+          dates={submissionDates}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        />
+      )}
     </>
   );
 }

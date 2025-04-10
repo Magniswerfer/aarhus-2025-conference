@@ -21,6 +21,7 @@ import * as $past_conferences from "./routes/past-conferences.tsx";
 import * as $programme from "./routes/programme.tsx";
 import * as $ConferenceTimeline from "./islands/ConferenceTimeline.tsx";
 import * as $ExpandableBio from "./islands/ExpandableBio.tsx";
+import * as $Footer from "./islands/Footer.tsx";
 import * as $History from "./islands/History.tsx";
 import * as $MobileMenu from "./islands/MobileMenu.tsx";
 import * as $NavDropdown from "./islands/NavDropdown.tsx";
@@ -56,6 +57,7 @@ const manifest = {
   islands: {
     "./islands/ConferenceTimeline.tsx": $ConferenceTimeline,
     "./islands/ExpandableBio.tsx": $ExpandableBio,
+    "./islands/Footer.tsx": $Footer,
     "./islands/History.tsx": $History,
     "./islands/MobileMenu.tsx": $MobileMenu,
     "./islands/NavDropdown.tsx": $NavDropdown,

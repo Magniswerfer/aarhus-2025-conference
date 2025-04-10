@@ -1,13 +1,13 @@
 // layouts/layout.tsx
 import { ComponentChildren } from "preact";
 import StaticNavigation from "../components/StaticNavigation.tsx";
-import Footer from "../components/Footer.tsx";
+import Footer from "../islands/Footer.tsx";
 import type { NavigationItem } from "../components/StaticNavigation.tsx";
 
 interface LayoutProps {
   children: ComponentChildren;
   navigationItems?: NavigationItem[];
-  currentPath: string; // new required prop
+  currentPath: string;
 }
 
 export default function Layout({
