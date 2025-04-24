@@ -62,11 +62,11 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
   };
 
   return (
-    <div class="py-4 dropdown-container">
+    <div class="py-4 dropdown-container relative">
       <div class="flex items-center">
         <a
           href={link.path}
-          class={`text-black uppercase text-base hover:opacity-90 ${
+          class={`text-black uppercase text-lg hover:opacity-90 ${
             currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
           }`}
         >
@@ -78,7 +78,7 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
           aria-label="Toggle dropdown"
         >
           <svg
-            class="w-4 h-4"
+            class="w-5 h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -93,25 +93,29 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
         </button>
       </div>
       <div
-        class={`absolute top-full left-0 right-0 w-full md:left-auto md:right-0 md:w-auto bg-white shadow-lg rounded-b-md py-2 z-50 transition-opacity duration-200 ${
+        class={`absolute top-full left-0 mt-1 min-w-[200px] w-max md:w-auto bg-white shadow-xl rounded-md py-3 z-50 transition-all duration-200 ${
           !isTouchDevice
-            ? "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+            ? "opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-2 group-hover:translate-y-0"
             : activeDropdown
-            ? "opacity-100 visible"
-            : "opacity-0 invisible"
+            ? "opacity-100 visible transform translate-y-0"
+            : "opacity-0 invisible transform translate-y-2"
         }`}
       >
-        {link.dropdownItems?.map((item) => (
-          <a
-            key={item.path}
-            href={item.path}
-            class={`block px-4 py-2 text-sm text-black hover:bg-gray-100 whitespace-nowrap ${
-              currentPath === item.path ? "font-bold" : "opacity-60"
-            }`}
-          >
-            {item.label}
-          </a>
-        ))}
+        <div class="px-2">
+          {link.dropdownItems?.map((item) => (
+            <a
+              key={item.path}
+              href={item.path}
+              class={`block px-4 py-3 text-md hover:bg-gray-50 rounded-md transition-colors duration-150 whitespace-nowrap ${
+                currentPath === item.path 
+                  ? "font-bold text-aarhus-red" 
+                  : "text-gray-800 hover:text-aarhus-red"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

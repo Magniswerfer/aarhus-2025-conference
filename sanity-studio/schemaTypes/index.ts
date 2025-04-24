@@ -4,6 +4,8 @@ import organisers from './organisers'
 import page from './page'
 import committee from './committee'
 import keynoteSpeaker from './keynoteSpeaker'
+import navigation from './navigation'
+import navigationItem from './navigationItem'
 
 
 export const schemaTypes = [
@@ -12,5 +14,7 @@ export const schemaTypes = [
   page,
   committee,
   keynoteSpeaker,
+  navigation,
+  navigationItem,
   // Add other schema types here as needed
 ]
