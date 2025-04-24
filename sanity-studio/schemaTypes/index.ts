@@ -6,6 +6,7 @@ import committee from './committee'
 import keynoteSpeaker from './keynoteSpeaker'
 import navigation from './navigation'
 import navigationItem from './navigationItem'
+import acceptedWorkshop from './acceptedWorkshop'
 
 
 export const schemaTypes = [
@@ -16,5 +17,6 @@ export const schemaTypes = [
   keynoteSpeaker,
   navigation,
   navigationItem,
+  acceptedWorkshop,
   // Add other schema types here as needed
 ]
