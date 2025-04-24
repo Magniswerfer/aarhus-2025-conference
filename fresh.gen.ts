@@ -6,6 +6,7 @@ import * as $_slug_ from "./routes/[slug].tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
+import * as $accepted_workshops from "./routes/accepted-workshops.tsx";
 import * as $api_nav from "./routes/api/nav.tsx";
 import * as $api_submission_dates from "./routes/api/submission-dates.tsx";
 import * as $call_for_contributions from "./routes/call-for-contributions.tsx";
@@ -35,6 +36,7 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/_middleware.ts": $_middleware,
+    "./routes/accepted-workshops.tsx": $accepted_workshops,
     "./routes/api/nav.tsx": $api_nav,
     "./routes/api/submission-dates.tsx": $api_submission_dates,
     "./routes/call-for-contributions.tsx": $call_for_contributions,

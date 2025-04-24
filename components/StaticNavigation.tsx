@@ -32,6 +32,11 @@ export default function StaticNavigation(
     (a, b) => a.order - b.order,
   );
 
+  // Ensure the path is absolute
+  const ensureAbsolutePath = (path: string) => {
+    return path.startsWith('/') ? path : `/${path}`;
+  };
+
   return (
     <nav class="relative bg-transparent px-4 md:px-12 py-2">
       <div class="flex items-center justify-between">
@@ -48,7 +53,7 @@ export default function StaticNavigation(
                   ? <NavDropdown link={link} currentPath={currentPath} />
                   : (
                     <a
-                      href={link.path}
+                      href={ensureAbsolutePath(link.path)}
                       class={`text-black uppercase text-lg hover:opacity-90 py-4 block ${
                         currentPath === link.path
                           ? "opacity-100 font-bold"

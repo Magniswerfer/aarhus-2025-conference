@@ -61,11 +61,16 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
     }
   };
 
+  // Ensure the path is absolute
+  const ensureAbsolutePath = (path: string) => {
+    return path.startsWith('/') ? path : `/${path}`;
+  };
+
   return (
     <div class="py-4 dropdown-container relative">
       <div class="flex items-center">
         <a
-          href={link.path}
+          href={ensureAbsolutePath(link.path)}
           class={`text-black uppercase text-lg hover:opacity-90 ${
             currentPath === link.path ? "opacity-100 font-bold" : "opacity-60"
           }`}
@@ -105,7 +110,7 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
           {link.dropdownItems?.map((item) => (
             <a
               key={item.path}
-              href={item.path}
+              href={ensureAbsolutePath(item.path)}
               class={`block px-4 py-3 text-md hover:bg-gray-50 rounded-md transition-colors duration-150 whitespace-nowrap ${
                 currentPath === item.path 
                   ? "font-bold text-aarhus-red" 

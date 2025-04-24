@@ -61,6 +61,11 @@ export default function MobileMenu(
     return false;
   };
 
+  // Ensure the path is absolute
+  const ensureAbsolutePath = (path: string) => {
+    return path.startsWith('/') ? path : `/${path}`;
+  };
+
   return (
     <>
       {/* Mobile Menu Button */}
@@ -102,7 +107,7 @@ export default function MobileMenu(
                 {/* Main navigation item */}
                 <div class="flex items-center">
                   <a
-                    href={link.path}
+                    href={ensureAbsolutePath(link.path)}
                     class={`flex-grow block px-4 py-2 text-black uppercase text-lg hover:bg-gray-50 ${
                       currentPath === link.path ? "font-bold" : "opacity-70"
                     }`}
@@ -150,7 +155,7 @@ export default function MobileMenu(
                     {link.dropdownItems.map((item) => (
                       <a
                         key={item.path}
-                        href={item.path}
+                        href={ensureAbsolutePath(item.path)}
                         class={`block px-8 py-2 text-md hover:bg-gray-100 whitespace-nowrap ${
                           currentPath === item.path 
                             ? "font-bold text-aarhus-red" 
