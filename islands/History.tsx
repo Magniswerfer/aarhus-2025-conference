@@ -1,12 +1,16 @@
 import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useRef } from "preact/hooks";
 import { conferences } from "../data/previousConferences.ts";
 
+// Import the CSS (will need to be handled by the bundler)
+// This is a comment to show that we're aware CSS needs to be imported
+
 const ConferenceHistory = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [viewMode, setViewMode] = useState("mobile");
+  const descriptionRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,12 +23,12 @@ const ConferenceHistory = () => {
     };
 
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    globalThis.addEventListener("resize", handleResize);
+    return () => globalThis.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    let intervalId;
+    let intervalId: number | undefined;
     if (viewMode !== "desktop" && isAutoPlaying) {
       intervalId = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % conferences.length);
@@ -33,55 +37,97 @@ const ConferenceHistory = () => {
     return () => intervalId && clearInterval(intervalId);
   }, [viewMode, isAutoPlaying]);
 
+  // Handle showing scrollbar only when needed
+  useEffect(() => {
+    if (hoveredIndex !== null) {
+      const descriptionEl = descriptionRefs.current[hoveredIndex];
+      if (descriptionEl) {
+        // Get the panel and title elements
+        const panel = descriptionEl.closest('.panel');
+        const titleGroup = panel?.querySelector('.title-group');
+        
+        if (panel && titleGroup) {
+          // Calculate available space
+          const panelHeight = panel.clientHeight;
+          const titleHeight = titleGroup.clientHeight;
+          const padding = 40; // Account for padding
+          
+          // Set max height to use available space
+          const availableHeight = panelHeight - titleHeight - padding;
+          descriptionEl.style.maxHeight = `${availableHeight}px`;
+        } else {
+          // Fallback if elements aren't found
+          descriptionEl.style.maxHeight = '10rem';
+        }
+        
+        descriptionEl.style.opacity = '1';
+        descriptionEl.style.overflow = 'auto';
+        
+        // Wait for the animation to complete
+        const timer = setTimeout(() => {
+          // Check if content actually overflows
+          const isOverflowing = descriptionEl.scrollHeight > descriptionEl.clientHeight;
+          
+          // Only add class if content overflows
+          if (isOverflowing) {
+            descriptionEl.classList.add('description-visible');
+            // Force a repaint to ensure the scrollbar appears
+            descriptionEl.style.display = 'none';
+            void descriptionEl.offsetHeight; // Force reflow
+            descriptionEl.style.display = 'block';
+          } else {
+            descriptionEl.classList.remove('description-visible');
+          }
+        }, 400); // Match the CSS animation duration
+        
+        return () => {
+          clearTimeout(timer);
+          if (descriptionEl) {
+            descriptionEl.classList.remove('description-visible');
+            descriptionEl.style.maxHeight = '';
+            descriptionEl.style.opacity = '';
+            descriptionEl.style.overflow = '';
+          }
+        };
+      }
+    }
+  }, [hoveredIndex]);
+
   const DesktopView = () => (
     <div className="overflow-hidden p-4">
       <div className="flex gap-4 h-80">
         {conferences.map((conference, index) => {
-          const isHovered = hoveredIndex === index;
           const baseWidth = `${100 / conferences.length}%`;
 
           return (
             <div
               key={conference.year}
               style={{
-                width: isHovered ? "24rem" : baseWidth,
-                transition: "all 0.5s ease-in-out",
+                width: baseWidth,
+                transition: "transform var(--duration) var(--easing)",
               }}
-              className="relative cursor-pointer bg-black"
+              className={`panel relative cursor-pointer bg-black ${hoveredIndex === index ? 'z-10' : ''}`}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              {/* Base content - always visible but fades out on hover */}
-              <div
-                className="absolute inset-0 p-6 transition-opacity duration-500"
-                style={{
-                  opacity: isHovered ? 0 : 1,
-                }}
-              >
-                <div className="absolute top-1/3 left-6 right-6">
-                  <div className="text-4xl font-bold mb-3">
-                    {conference.year}
+              <div className="panel-content">
+                <div className="title-container">
+                  <div className="title-group">
+                    <div className="year-title text-4xl font-bold">
+                      {conference.year}
+                    </div>
+                    <div className="subtitle text-base leading-snug">
+                      {conference.title}
+                    </div>
                   </div>
-                  <div className="text-base leading-snug opacity-90">
-                    {conference.title}
+                  <div className="description-wrapper">
+                    <div 
+                      className="description text-sm text-gray-300 leading-relaxed"
+                      ref={el => descriptionRefs.current[index] = el}
+                    >
+                      {conference.description}
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Hover content - fades in on hover */}
-              <div
-                className="absolute inset-0 p-6"
-                style={{
-                  opacity: isHovered ? 1 : 0,
-                  transition: "opacity 0.5s ease-in-out",
-                }}
-              >
-                <div className="text-3xl font-bold mb-3">{conference.year}</div>
-                <div className="text-base font-medium mb-3">
-                  {conference.title}
-                </div>
-                <div className="text-sm text-gray-300 leading-relaxed">
-                  {conference.description}
                 </div>
               </div>
             </div>
