@@ -102,7 +102,7 @@ export default function AcceptedWorkshops({ data }: PageProps<Data>) {
                   <ExpandableBio text={workshop.description} />
                 </div>
                 <div class="flex flex-col space-y-2 mb-4">
-                  <AnimatedLink href={workshop.workshopDocument} text="Workshop document" />
+                  {/* <AnimatedLink href={workshop.workshopDocument} text="Workshop document" /> */}
                   {workshop.website && workshop.website.startsWith('http') && (
                     <AnimatedLink href={workshop.website} text="Website" />
                   )}
