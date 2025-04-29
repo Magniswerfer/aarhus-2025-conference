@@ -19,9 +19,9 @@ interface ProgrammeData {
 
 // Fallback data in case the fetch fails
 const fallbackData: ProgrammeData = {
-  title: "Preliminary Programme",
+  title: "Keynote Speakers",
   description:
-    "Explore our lineup of exciting keynote speakers and sessions for the Aarhus 2025 Conference",
+    "Explore our lineup of exciting keynote speakers for the Aarhus 2025 Conference",
   keynoteSpeakers: [],
 };
 
@@ -41,9 +41,9 @@ export const handler: Handlers<ProgrammeData> = {
 
       // Create a structured data object
       const programmeData: ProgrammeData = {
-        title: "Preliminary Programme",
+        title: "Keynote Speakers",
         description:
-          "The detailed programme schedule will be announced closer to the conference date.",
+          "Explore our lineup of exciting keynote speakers for the Aarhus 2025 Conference.",
         keynoteSpeakers: keynoteSpeakers || [],
       };
 
@@ -119,18 +119,6 @@ export default function ProgrammePage({ data }: { data: ProgrammeData }) {
               ))}
             </div>
           )}
-
-        <div class="mt-16">
-          <h2 class="text-3xl font-bold text-aarhus-red mb-8">
-            Conference Schedule
-          </h2>
-          <div class="bg-gray-50 p-6 rounded-lg">
-            <p class="mb-4">
-              The detailed programme schedule will be announced closer to the
-              conference date.
-            </p>
-          </div>
-        </div>
       </div>
     </>
   );
