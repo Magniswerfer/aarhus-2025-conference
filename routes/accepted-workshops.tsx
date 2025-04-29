@@ -2,6 +2,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { client } from "../utils/sanity.ts";
 import ExpandableBio from "../islands/ExpandableBio.tsx";
+import AnimatedLink from "../islands/AnimatedLink.tsx";
 
 interface AcceptedWorkshop {
   _id: string;
@@ -11,6 +12,11 @@ interface AcceptedWorkshop {
   workshopDocument: string;
   description: string;
   website?: string;
+  organizers?: {
+    name: string;
+    email: string;
+    affiliation: string;
+  }[];
 }
 
 interface Data {
@@ -28,7 +34,8 @@ export const handler: Handlers<Data> = {
         contactEmail,
         workshopDocument,
         description,
-        website
+        website,
+        organizers
       }`;
       
       const workshops = await client.fetch(query);
@@ -59,7 +66,7 @@ export default function AcceptedWorkshops({ data }: PageProps<Data>) {
           </p>
         </div>
       </div>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         
         {error && <p class="text-red-500">{error}</p>}
         
@@ -76,31 +83,35 @@ export default function AcceptedWorkshops({ data }: PageProps<Data>) {
                 <h3 class="text-2xl font-bold text-aarhus-red mb-2">
                   {workshop.title}
                 </h3>
-                <p class="text-gray-600 mb-4 text-lg">
-                  Contact: {workshop.contactName} | <a href={`mailto:${workshop.contactEmail}`} class="text-aarhus-red hover:underline">{workshop.contactEmail}</a>
-                </p>
+                {workshop.organizers && workshop.organizers.length > 0 && (
+                  <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Organizers:</h4>
+                    <p class="text-gray-600">
+                      {workshop.organizers.map((organizer, index) => (
+                        <span key={index}>
+                          {organizer.name}
+                          {index < (workshop.organizers?.length ?? 0) - 2 ? ", " : ""}
+                          {index === (workshop.organizers?.length ?? 0) - 2 ? " & " : ""}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                )}
                 <div class="mb-4">
+                  <h4 class="text-lg font-semibold text-gray-800 mb-2">Description:</h4>
                   <ExpandableBio text={workshop.description} />
                 </div>
-                <div class="flex flex-col space-y-2 mt-4">
-                  <a 
-                    href={workshop.workshopDocument} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="text-aarhus-red hover:underline font-medium"
-                  >
-                    View Workshop Document
-                  </a>
-                  {workshop.website && (
-                    <a 
-                      href={workshop.website} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      class="text-aarhus-red hover:underline font-medium"
-                    >
-                      Visit Website
-                    </a>
+                <div class="flex flex-col space-y-2 mb-4">
+                  <AnimatedLink href={workshop.workshopDocument} text="Workshop document" />
+                  {workshop.website && workshop.website.startsWith('http') && (
+                    <AnimatedLink href={workshop.website} text="Website" />
                   )}
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-800 mb-2">Contact:</h4>
+                  <p class="text-gray-600">
+                    {workshop.contactName} | <a href={`mailto:${workshop.contactEmail}`} class="text-aarhus-red hover:underline">{workshop.contactEmail}</a>
+                  </p>
                 </div>
               </div>
             </div>

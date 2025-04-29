@@ -17,9 +17,10 @@ import * as $call_for_contributions_papers from "./routes/call-for-contributions
 import * as $call_for_contributions_work_in_progress from "./routes/call-for-contributions/work-in-progress.tsx";
 import * as $call_for_contributions_workshops from "./routes/call-for-contributions/workshops.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $keynote_speakers from "./routes/keynote-speakers.tsx";
 import * as $organisers from "./routes/organisers.tsx";
 import * as $past_conferences from "./routes/past-conferences.tsx";
-import * as $programme from "./routes/programme.tsx";
+import * as $AnimatedLink from "./islands/AnimatedLink.tsx";
 import * as $ConferenceTimeline from "./islands/ConferenceTimeline.tsx";
 import * as $ExpandableBio from "./islands/ExpandableBio.tsx";
 import * as $Footer from "./islands/Footer.tsx";
@@ -52,11 +53,12 @@ const manifest = {
     "./routes/call-for-contributions/workshops.tsx":
       $call_for_contributions_workshops,
     "./routes/index.tsx": $index,
+    "./routes/keynote-speakers.tsx": $keynote_speakers,
     "./routes/organisers.tsx": $organisers,
     "./routes/past-conferences.tsx": $past_conferences,
-    "./routes/programme.tsx": $programme,
   },
   islands: {
+    "./islands/AnimatedLink.tsx": $AnimatedLink,
     "./islands/ConferenceTimeline.tsx": $ConferenceTimeline,
     "./islands/ExpandableBio.tsx": $ExpandableBio,
     "./islands/Footer.tsx": $Footer,

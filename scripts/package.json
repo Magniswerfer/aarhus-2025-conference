@@ -1,0 +1,19 @@
+{
+  "name": "sanity-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for managing Sanity content",
+  "main": "import-organizers.ts",
+  "scripts": {
+    "import-organizers": "ts-node import-organizers.ts"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.15.9",
+    "csv-parse": "^5.5.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "@types/uuid": "^9.0.7"
+  }
+} 

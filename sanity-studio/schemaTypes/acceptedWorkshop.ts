@@ -22,6 +22,22 @@ export default {
         validation: Rule => Rule.required().email()
       },
       {
+        name: 'organizers',
+        title: 'Organizers',
+        type: 'array',
+        of: [{
+          type: 'object',
+          fields: [
+            {
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+              validation: Rule => Rule.required()
+            }
+          ]
+        }]
+      },
+      {
         name: 'workshopDocument',
         title: 'Workshop Document URL',
         type: 'url',
