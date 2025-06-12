@@ -3,11 +3,13 @@ import Hero from "../components/Hero.tsx";
 import ContentSection from "../components/ContentSection.tsx";
 import XBreaker from "../islands/XBreaker.tsx";
 import History from "../islands/History.tsx";
+import Streamer from "../components/Streamer.tsx";
 
 
 export default function Home() {
   return (
     <>
+      <Streamer />
       <Hero />
       <History />
       <ContentSection
