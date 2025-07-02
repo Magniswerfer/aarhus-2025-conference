@@ -86,14 +86,13 @@ const ConferenceHistory = () => {
           return (
             <div
               key={conference.year}
-              className="cursor-pointer bg-black relative"
+              className={`panel relative cursor-pointer bg-black ${
+                hoveredIndex === index ? "z-10" : ""
+              }`}
               style={{
                 width: baseWidth,
                 transition: "transform var(--duration) var(--easing)",
               }}
-              className={`panel relative cursor-pointer bg-black ${
-                hoveredIndex === index ? "z-10" : ""
-              }`}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >

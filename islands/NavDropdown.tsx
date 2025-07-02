@@ -8,6 +8,7 @@ interface DropdownItem {
 }
 
 interface NavigationItem {
+  id: string; // Add unique ID for React keys
   path: string;
   label: string;
   hasDropdown: boolean;
@@ -63,7 +64,7 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
 
   // Ensure the path is absolute
   const ensureAbsolutePath = (path: string) => {
-    return path.startsWith('/') ? path : `/${path}`;
+    return path.startsWith("/") ? path : `/${path}`;
   };
 
   return (
@@ -112,8 +113,8 @@ export default function NavDropdown({ link, currentPath }: NavDropdownProps) {
               key={item.path}
               href={ensureAbsolutePath(item.path)}
               class={`block px-4 py-3 text-md hover:bg-gray-50 rounded-md transition-colors duration-150 whitespace-nowrap ${
-                currentPath === item.path 
-                  ? "font-bold text-aarhus-red" 
+                currentPath === item.path
+                  ? "font-bold text-aarhus-red"
                   : "text-gray-800 hover:text-aarhus-red"
               }`}
             >

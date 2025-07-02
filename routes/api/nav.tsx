@@ -31,6 +31,7 @@ export const handler = {
       // Format navigation items
       const navigationItems = data.map((item: any) => {
         const baseItem = {
+          id: item._id, // Add unique ID for React keys
           label: item.title,
           order: item.order,
           hasDropdown: item.type === "dropdown",

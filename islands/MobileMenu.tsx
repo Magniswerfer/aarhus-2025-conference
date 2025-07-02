@@ -8,6 +8,7 @@ interface DropdownItem {
 }
 
 interface NavigationItem {
+  id: string; // Add unique ID for React keys
   path: string;
   label: string;
   hasDropdown: boolean;
@@ -112,7 +113,7 @@ export default function MobileMenu(
         >
           <div class="py-3">
             {navigationItems.map((link) => (
-              <div key={link.path} class="mb-1">
+              <div key={link.id} class="mb-1">
                 {/* Main navigation item */}
                 <div class="flex items-center">
                   <a

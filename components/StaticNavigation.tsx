@@ -9,6 +9,7 @@ export interface DropdownItem {
 }
 
 export interface NavigationItem {
+  id: string; // Add unique ID for React keys
   path: string;
   label: string;
   hasDropdown: boolean;
@@ -26,7 +27,7 @@ export default function StaticNavigation(
 ) {
   // Fallback to empty array if no items provided
   const navigationItems = items || [];
-  
+
   // Sort the navigation items by the 'order' property
   const sortedNavigationItems = [...navigationItems].sort(
     (a, b) => a.order - b.order,
@@ -34,7 +35,7 @@ export default function StaticNavigation(
 
   // Ensure the path is absolute
   const ensureAbsolutePath = (path: string) => {
-    return path.startsWith('/') ? path : `/${path}`;
+    return path.startsWith("/") ? path : `/${path}`;
   };
 
   return (
@@ -48,7 +49,7 @@ export default function StaticNavigation(
         <div class="hidden xl1:flex absolute inset-0 justify-center">
           <div class="flex items-center space-x-8 font-roboto-condensed">
             {sortedNavigationItems.map((link) => (
-              <div key={link.path} class="relative dropdown-container group">
+              <div key={link.id} class="relative dropdown-container group">
                 {link.hasDropdown
                   ? <NavDropdown link={link} currentPath={currentPath} />
                   : (
