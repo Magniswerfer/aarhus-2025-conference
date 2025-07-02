@@ -1,0 +1,265 @@
+:root {
+  --duration: 0.5s;
+  --exit-duration: 0.25s;
+  --easing: cubic-bezier(0.25, 1, 0.5, 1);
+  --exit-easing: cubic-bezier(0.5, 0, 0.75, 0);
+  --description-delay: 0.1s;
+  --title-scale: 1.25;
+  --scrollbar-width: 6px;
+  --scrollbar-delay: 0.1s;
+  --title-group-height: 7rem; /* Increased height for title group to accommodate 3-line subtitles */
+  --subtitle-description-gap: 0.25rem; /* Gap between subtitle and description */
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration) var(--easing);
+  transform-origin: center;
+  will-change: transform;
+  box-sizing: border-box;
+  flex: 1;
+  max-width: 100%;
+  display: flex;
+  height: 100%;
+}
+
+.panel:hover {
+  transform: scale(1.03);
+  z-index: 10;
+}
+
+/* When not hovering, ensure smooth transition back */
+.panel:not(:hover) {
+  transition: transform var(--duration) var(--exit-easing);
+}
+
+.panel-content {
+  position: relative;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  transition: all var(--duration) var(--easing);
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%; /* Ensure full height */
+}
+
+/* Add exit animation for panel content */
+.panel:not(:hover) .panel-content {
+  transition: all var(--duration) var(--exit-easing);
+}
+
+/* This container keeps consistent height and enables centering */
+.title-container {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration) var(--easing);
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* The title-group wraps year and subtitle */
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Keep content left-aligned */
+  transition: transform var(--duration) var(--easing);
+  will-change: transform;
+  height: var(--title-group-height); /* Fixed height */
+  min-height: var(--title-group-height); /* Ensure minimum height */
+}
+
+/* Add exit animation for title container */
+.panel:not(:hover) .title-container {
+  transition: transform var(--duration) var(--exit-easing);
+}
+
+.panel:not(:hover) .title-group {
+  transition: transform var(--duration) var(--exit-easing);
+}
+
+.year-title {
+  transition: all var(--duration) var(--easing);
+  transform-origin: left;
+  max-width: 100%;
+  text-align: left;
+  margin-bottom: 0.75rem; /* Fixed spacing between year and subtitle */
+  /* Remove absolute positioning */
+}
+
+.subtitle {
+  transition: all var(--duration) var(--easing);
+  transform-origin: left;
+  max-width: 100%;
+  text-align: left;
+  margin-bottom: var(--subtitle-description-gap); /* Fixed spacing between subtitle and description */
+  line-height: 1.3; /* Consistent line height */
+  overflow: visible;
+}
+
+/* Add exit animation for year and subtitle */
+.panel:not(:hover) .year-title,
+.panel:not(:hover) .subtitle {
+  transition: all var(--duration) var(--exit-easing);
+}
+
+/* Description wrapper to help with scrollbar reservation */
+.description-wrapper {
+  position: relative;
+  width: 100%;
+  max-height: 0;
+  opacity: 0;
+  /* Create a layout that always reserves scrollbar space */
+  display: flex;
+  overflow: hidden; /* Hide overflow in collapsed state */
+}
+
+.panel:hover .description-wrapper {
+  max-height: none; /* Remove max-height restriction completely */
+  opacity: 1;
+  transition: opacity var(--duration) var(--easing),
+              max-height var(--duration) var(--easing);
+  transition-delay: var(--description-delay);
+  overflow: visible; /* Show overflow when expanded */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  flex-grow: 1; /* Take remaining space */
+  height: auto; /* Let it calculate its own height */
+}
+
+.description {
+  position: relative;
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(5px);
+  transition: all var(--duration) var(--easing);
+  color: #f0f0f0;
+  overflow: hidden; /* Start with overflow hidden */
+  /* Take up all available space except for the scrollbar width */
+  flex: 1;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  padding-right: 0; /* Default padding */
+  display: flex;
+  flex-direction: column;
+}
+
+/* WebKit scrollbar styles */
+.description::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  background-color: transparent;
+  display: block; /* Always display scrollbar space */
+}
+
+.description::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+.description::-webkit-scrollbar-track {
+  background-color: transparent;
+  display: block; /* Always display track */
+}
+
+/* Firefox scrollbar styles */
+.description {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  /* Ensure Firefox always reserves scrollbar space */
+  scrollbar-gutter: stable;
+}
+
+/* Animation completed class - applied via JS after animation */
+.description-visible {
+  opacity: 1;
+  max-height: none; /* Remove height restriction completely */
+  transform: translateY(0);
+  /* Only show scrollbar when content exceeds container height */
+  overflow-y: auto;
+  display: block; /* Change from flex to block */
+  height: auto; /* Let it size to content */
+}
+
+/* Make scrollbar thumb visible for the visible description */
+.description-visible::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.8); /* Higher opacity for better visibility */
+  transition: background-color var(--duration) var(--easing);
+  transition-delay: var(--scrollbar-delay);
+}
+
+/* Firefox - make scrollbar visible on visible descriptions */
+.description-visible {
+  scrollbar-color: rgba(255, 255, 255, 0.8) transparent; /* Higher opacity for better visibility */
+  transition: scrollbar-color var(--duration) var(--easing);
+  transition-delay: var(--scrollbar-delay);
+}
+
+/* Add exit animation for description */
+.panel:not(:hover) .description {
+  transition: all var(--duration) var(--exit-easing);
+  overflow: hidden;
+}
+
+.panel:not(:hover) .description-wrapper {
+  max-height: 0;
+  opacity: 0;
+  transition: opacity var(--duration) var(--exit-easing),
+              max-height var(--duration) var(--exit-easing);
+}
+
+.panel:not(:hover) .description::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  transition: background-color var(--duration) var(--exit-easing);
+}
+
+/* Keep the panel content centered when not hovered */
+.panel-content {
+  justify-content: center;
+}
+
+.panel:hover .panel-content {
+  justify-content: flex-start;
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* On hover, change title container to make space for description */
+.panel:hover .title-container {
+  justify-content: flex-start;
+  flex-shrink: 0; /* Prevent title from shrinking */
+  margin-bottom: 0; /* Remove any bottom margin */
+}
+
+/* Move title group up on hover */
+.panel:hover .title-group {
+  transform: translateY(-0.5rem);
+  height: auto; /* Remove fixed height constraint on hover */
+  min-height: auto; /* Allow it to adjust to content */
+}
+
+.panel:hover .year-title {
+  transform: scale(0.9);
+}
+
+.panel:hover .subtitle {
+  transform: scale(0.95);
+}
+
+.panel:hover .description {
+  opacity: 1;
+  max-height: none; /* Remove height restriction completely */
+  transform: translateY(0);
+  transition-delay: var(--description-delay);
+  /* Only show scrollbar when content actually overflows */
+  overflow-y: auto;
+  flex-grow: 1; /* Take up all available space */
+  display: block; /* Change from flex to block for simpler layout */
+  height: auto; /* Let it size to its content */
+} 

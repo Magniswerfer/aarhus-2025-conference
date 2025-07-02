@@ -6,6 +6,7 @@ import * as $_slug_ from "./routes/[slug].tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
+import * as $accepted_workshops from "./routes/accepted-workshops.tsx";
 import * as $api_nav from "./routes/api/nav.tsx";
 import * as $api_submission_dates from "./routes/api/submission-dates.tsx";
 import * as $call_for_contributions from "./routes/call-for-contributions.tsx";
@@ -16,9 +17,10 @@ import * as $call_for_contributions_papers from "./routes/call-for-contributions
 import * as $call_for_contributions_work_in_progress from "./routes/call-for-contributions/work-in-progress.tsx";
 import * as $call_for_contributions_workshops from "./routes/call-for-contributions/workshops.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $keynote_speakers from "./routes/keynote-speakers.tsx";
 import * as $organisers from "./routes/organisers.tsx";
 import * as $past_conferences from "./routes/past-conferences.tsx";
-import * as $programme from "./routes/programme.tsx";
+import * as $AnimatedLink from "./islands/AnimatedLink.tsx";
 import * as $ConferenceTimeline from "./islands/ConferenceTimeline.tsx";
 import * as $ExpandableBio from "./islands/ExpandableBio.tsx";
 import * as $Footer from "./islands/Footer.tsx";
@@ -35,6 +37,7 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/_middleware.ts": $_middleware,
+    "./routes/accepted-workshops.tsx": $accepted_workshops,
     "./routes/api/nav.tsx": $api_nav,
     "./routes/api/submission-dates.tsx": $api_submission_dates,
     "./routes/call-for-contributions.tsx": $call_for_contributions,
@@ -50,11 +53,12 @@ const manifest = {
     "./routes/call-for-contributions/workshops.tsx":
       $call_for_contributions_workshops,
     "./routes/index.tsx": $index,
+    "./routes/keynote-speakers.tsx": $keynote_speakers,
     "./routes/organisers.tsx": $organisers,
     "./routes/past-conferences.tsx": $past_conferences,
-    "./routes/programme.tsx": $programme,
   },
   islands: {
+    "./islands/AnimatedLink.tsx": $AnimatedLink,
     "./islands/ConferenceTimeline.tsx": $ConferenceTimeline,
     "./islands/ExpandableBio.tsx": $ExpandableBio,
     "./islands/Footer.tsx": $Footer,

@@ -78,86 +78,144 @@ const renderTextContent = (
 export function parseContent(content: BlockContent[]): JSX.Element[] {
   if (!content) return [];
 
-  let currentList: JSX.Element[] = [];
-  let isInList = false;
   const result: JSX.Element[] = [];
-
-  content.forEach((block, index) => {
-    if (block._type === "block") {
-      if (block.listItem) {
-        // Handle list items
-        if (!isInList) {
-          isInList = true;
-          currentList = [];
-        }
-
-        currentList.push(
-          <li key={block._key || index} class="ml-6 mb-2">
-            {block.children?.map((child, idx) =>
-              renderTextContent(child, idx, block.markDefs)
-            )}
-          </li>,
-        );
-      } else {
-        // Not a list item - flush any existing list
-        if (isInList && currentList.length > 0) {
-          result.push(
-            <ul key={`list-${index}`} class="list-disc ml-6 mb-4">
-              {currentList}
-            </ul>,
-          );
-          currentList = [];
-          isInList = false;
-        }
-
-        // Handle regular blocks
+  let currentListItems: BlockContent[] = [];
+  
+  // Process all blocks
+  for (let i = 0; i < content.length; i++) {
+    const block = content[i];
+    
+    if (block._type === "block" && block.listItem) {
+      // Collect list items
+      currentListItems.push(block);
+    } else {
+      // If we have list items and now we've hit a non-list item,
+      // process the list
+      if (currentListItems.length > 0) {
+        result.push(renderList(currentListItems));
+        currentListItems = [];
+      }
+      
+      // Process regular blocks
+      if (block._type === "block") {
         switch (block.style) {
           case "h2":
             result.push(
               <h2
-                key={block._key || index}
+                key={block._key}
                 class="text-3xl font-bold text-aarhus-red mb-4"
               >
                 {block.children?.map((child, idx) =>
                   renderTextContent(child, idx, block.markDefs)
                 )}
-              </h2>,
+              </h2>
             );
             break;
-
           case "h3":
             result.push(
-              <h3 key={block._key || index} class="text-2xl font-semibold mb-4">
+              <h3
+                key={block._key}
+                class="text-2xl font-semibold mb-4"
+              >
                 {block.children?.map((child, idx) =>
                   renderTextContent(child, idx, block.markDefs)
                 )}
-              </h3>,
+              </h3>
             );
             break;
-
           default:
             result.push(
-              <p key={block._key || index} class="mb-4">
+              <p key={block._key} class="mb-4">
                 {block.children?.map((child, idx) =>
                   renderTextContent(child, idx, block.markDefs)
                 )}
-              </p>,
+              </p>
             );
         }
       }
     }
-  });
-
-  // Flush any remaining list items
-  if (isInList && currentList.length > 0) {
-    result.push(
-      <ul key="final-list" class="list-disc mb-4">
-        {currentList}
-      </ul>,
-    );
   }
-
+  
+  // Process any remaining list items
+  if (currentListItems.length > 0) {
+    result.push(renderList(currentListItems));
+  }
+  
   return result;
+}
+
+// Structure for a list item node in our DOM tree
+interface ListNode {
+  key: string;
+  content: JSX.Element;
+  level: number;
+  children: ListNode[];
+}
+
+function renderList(listItems: BlockContent[]): JSX.Element {
+  // Create a root node for our list tree
+  const root: ListNode = { key: 'root', content: <></>, level: -1, children: [] };
+  
+  // Track the stack of parent nodes as we build the tree
+  const nodeStack: ListNode[] = [root];
+  
+  // Process each list item and build the tree
+  listItems.forEach((item) => {
+    const level = item.level || 0;
+    const content = (
+      <>
+        {item.children?.map((child, idx) =>
+          renderTextContent(child, idx, item.markDefs)
+        )}
+      </>
+    );
+    
+    const node: ListNode = {
+      key: item._key,
+      content,
+      level,
+      children: []
+    };
+    
+    // Find the appropriate parent for this node
+    while (nodeStack.length > 1 && nodeStack[nodeStack.length - 1].level >= level) {
+      nodeStack.pop();
+    }
+    
+    // Add this node as a child of the appropriate parent
+    nodeStack[nodeStack.length - 1].children.push(node);
+    
+    // This node becomes a potential parent for deeper nested items
+    nodeStack.push(node);
+  });
+  
+  // Render the tree as JSX
+  return renderTree(root);
+}
+
+function renderTree(node: ListNode): JSX.Element {
+  // Root node is just a container, render its children
+  if (node.key === 'root') {
+    return <ul key="list-root" class="list-disc ml-6 mb-4">{node.children.map(renderNode)}</ul>;
+  }
+  
+  // For non-root nodes, we won't directly call this function
+  // Instead, we'll always use renderNode for child nodes
+  return <>{node.children.map(renderNode)}</>;
+}
+
+function renderNode(node: ListNode): JSX.Element {
+  // If this node has children, render them as a nested list
+  const nestedList = node.children.length > 0 
+    ? <ul class="list-disc ml-6 mt-2">{node.children.map(renderNode)}</ul> 
+    : null;
+  
+  return (
+    <li key={node.key} class="mb-2">
+      {node.content}
+      {nestedList}
+    </li>
+  );
 }
 
 // GROQ query for fetching page content

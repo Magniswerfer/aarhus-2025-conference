@@ -34,6 +34,7 @@ export default function App({ Component, url, state }: PageProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Aarhus 2025 Conference</title>
         <link rel="stylesheet" href="/styles.css" />
+        <link rel="stylesheet" href="/panel.css" />
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"

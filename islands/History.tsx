@@ -2,15 +2,13 @@ import { h } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { conferences } from "../data/previousConferences.ts";
 
+// Import the CSS (will need to be handled by the bundler)
+// This is a comment to show that we're aware CSS needs to be imported
+
 const ConferenceHistory = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [viewMode, setViewMode] = useState("mobile");
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-
-  const intervalRef = useRef<number | undefined>();
+  const descriptionRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,62 +20,67 @@ const ConferenceHistory = () => {
     return () => globalThis.removeEventListener("resize", handleResize);
   }, []);
 
-  const startAutoPlay = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    if (viewMode !== "desktop" && isAutoPlaying) {
-      intervalRef.current = setInterval(() => {
-        handleSlideChange("left");
-      }, 8000);
-    }
-  };
-
+  // Handle showing scrollbar only when needed
   useEffect(() => {
-    startAutoPlay();
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+    if (hoveredIndex !== null) {
+      const descriptionEl = descriptionRefs.current[hoveredIndex];
+      if (descriptionEl) {
+        // Get the panel and title elements
+        const panel = descriptionEl.closest(".panel");
+        const titleGroup = panel?.querySelector(".title-group");
+
+        if (panel && titleGroup) {
+          // Calculate available space
+          const panelHeight = panel.clientHeight;
+          const titleHeight = titleGroup.clientHeight;
+          const padding = 40; // Account for padding
+
+          // Set max height to use available space
+          const availableHeight = panelHeight - titleHeight - padding;
+          descriptionEl.style.maxHeight = `${availableHeight}px`;
+        } else {
+          // Fallback if elements aren't found
+          descriptionEl.style.maxHeight = "10rem";
+        }
+
+        descriptionEl.style.opacity = "1";
+        descriptionEl.style.overflow = "auto";
+
+        // Wait for the animation to complete
+        const timer = setTimeout(() => {
+          // Check if content actually overflows
+          const isOverflowing =
+            descriptionEl.scrollHeight > descriptionEl.clientHeight;
+
+          // Only add class if content overflows
+          if (isOverflowing) {
+            descriptionEl.classList.add("description-visible");
+            // Force a repaint to ensure the scrollbar appears
+            descriptionEl.style.display = "none";
+            void descriptionEl.offsetHeight; // Force reflow
+            descriptionEl.style.display = "block";
+          } else {
+            descriptionEl.classList.remove("description-visible");
+          }
+        }, 400); // Match the CSS animation duration
+
+        return () => {
+          clearTimeout(timer);
+          if (descriptionEl) {
+            descriptionEl.classList.remove("description-visible");
+            descriptionEl.style.maxHeight = "";
+            descriptionEl.style.opacity = "";
+            descriptionEl.style.overflow = "";
+          }
+        };
       }
-    };
-  }, [viewMode, isAutoPlaying]);
-
-  const handleTouchStart = (e: TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    const currentTouch = e.targetTouches[0].clientX;
-    setTouchEnd(currentTouch);
-  };
-
-  const handleTouchEnd = () => {
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      handleSlideChange("left");
-    } else if (isRightSwipe) {
-      handleSlideChange("right");
     }
-  };
-
-  const handleSlideChange = (direction: "left" | "right") => {
-    const nextIndex = direction === "left"
-      ? (currentSlide + 1) % conferences.length
-      : (currentSlide - 1 + conferences.length) % conferences.length;
-
-    setCurrentSlide(nextIndex);
-    startAutoPlay();
-  };
+  }, [hoveredIndex]);
 
   const DesktopView = () => (
     <div className="overflow-hidden p-4">
       <div className="flex gap-4 h-80">
         {conferences.map((conference, index) => {
-          const isHovered = hoveredIndex === index;
           const baseWidth = `${100 / conferences.length}%`;
 
           return (
@@ -85,44 +88,33 @@ const ConferenceHistory = () => {
               key={conference.year}
               className="cursor-pointer bg-black relative"
               style={{
-                width: isHovered ? "24rem" : baseWidth,
-                transition: "width 0.5s ease-in-out",
+                width: baseWidth,
+                transition: "transform var(--duration) var(--easing)",
               }}
-              onMouseOver={() => setHoveredIndex(index)}
-              onMouseOut={() => setHoveredIndex(null)}
+              className={`panel relative cursor-pointer bg-black ${
+                hoveredIndex === index ? "z-10" : ""
+              }`}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              {
-                /*
-                 Wrap your "title" and "extra text" in a single container
-                 so there's no second absolute div blocking the hover.
-              */
-              }
-              <div
-                className="p-6"
-                style={{
-                  transform: isHovered ? "translateY(-20px)" : "translateY(0)",
-                  transition: "transform 0.5s ease-in-out",
-                }}
-              >
-                {/* Always-visible portion */}
-                <div className="text-4xl font-bold mb-3">{conference.year}</div>
-                <div className="text-base leading-snug opacity-90">
-                  {conference.title}
-                </div>
-
-                {/* The "expanded" description that appears on hover */}
-                <div
-                  className="text-sm text-gray-300 leading-relaxed mt-4"
-                  style={{
-                    overflow: "hidden",
-                    opacity: isHovered ? 1 : 0,
-                    maxHeight: isHovered ? "300px" : "0",
-                    transition:
-                      "max-height 0.5s ease-in-out, opacity 0.3s ease-in-out",
-                    transitionDelay: isHovered ? "0.1s" : "0s",
-                  }}
-                >
-                  {conference.description}
+              <div className="panel-content">
+                <div className="title-container">
+                  <div className="title-group">
+                    <div className="year-title text-4xl font-bold">
+                      {conference.year}
+                    </div>
+                    <div className="subtitle text-base leading-snug">
+                      {conference.title}
+                    </div>
+                  </div>
+                  <div className="description-wrapper">
+                    <div
+                      className="description text-sm text-gray-300 leading-relaxed"
+                      ref={(el) => descriptionRefs.current[index] = el}
+                    >
+                      {conference.description}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -133,80 +125,79 @@ const ConferenceHistory = () => {
   );
 
   const MobileView = () => (
-    <div
-      className="relative px-4 pt-12 pb-6 h-[26rem] overflow-hidden"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <button
-        onClick={() => handleSlideChange("right")}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white p-3 hover:bg-white/10 rounded-full transition-colors"
-        aria-label="Previous slide"
+    <div className="relative w-full overflow-hidden">
+      {/* Mobile carousel with horizontal scrolling - pure CSS snap */}
+      <div
+        className="w-full overflow-x-auto snap-x snap-mandatory scroll-smooth"
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "white rgba(255,255,255,0.1)",
+        }}
       >
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
-      </button>
+        <style jsx>
+          {`
+          /* Make scrollbar always visible with gradient steps */
+          div {
+            -ms-overflow-style: none; /* Hide default scrollbar in IE/Edge */
+            scrollbar-width: none; /* Hide default scrollbar in Firefox */
+          }
+          
+          div::-webkit-scrollbar {
+            height: 8px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            display: block;
+          }
+          
+          div::-webkit-scrollbar-thumb {
+            background-color: white;
+            border-radius: 4px;
+            background: linear-gradient(
+              to right,
+              rgba(100,100,100,0.5) 0%,
+              rgba(150,150,150,0.7) 15%,
+              rgba(255,255,255,1) 50%,
+              rgba(150,150,150,0.7) 85%,
+              rgba(100,100,100,0.5) 100%
+            );
+            background-size: ${conferences.length * 100}% 100%;
+            background-position: var(--scroll-pos, 0) 0;
+          }
+          
+          /* Make the scrollbar track stylized with "steps" */
+          div::-webkit-scrollbar-track {
+            background-image: repeating-linear-gradient(
+              to right,
+              transparent,
+              transparent calc((100% / ${conferences.length}) - 2px),
+              rgba(255,255,255,0.2) calc((100% / ${conferences.length}) - 1px),
+              rgba(255,255,255,0.2) calc(100% / ${conferences.length})
+            );
+            border-radius: 4px;
+          }
+        `}
+        </style>
 
-      <button
-        onClick={() => handleSlideChange("left")}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-white p-3 hover:bg-white/10 rounded-full transition-colors"
-        aria-label="Next slide"
-      >
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button>
-
-      <div className="relative h-full px-8">
-        <div className="max-w-lg mx-auto w-full">
-          <div className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-5">
-            {conferences[currentSlide].year}
-          </div>
-          <div className="text-lg sm:text-xl md:text-2xl font-medium mb-4 md:mb-5">
-            {conferences[currentSlide].title}
-          </div>
-          <div className="text-base text-gray-300 leading-relaxed">
-            {conferences[currentSlide].description}
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center space-x-3">
-          {conferences.map((_, index) => (
-            <button
+        <div className="flex">
+          {conferences.map((conference, index) => (
+            <div
               key={index}
-              onClick={() => {
-                if (index !== currentSlide) {
-                  const direction = index > currentSlide ? "left" : "right";
-                  handleSlideChange(direction);
-                }
-              }}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide
-                  ? "bg-white scale-125"
-                  : "bg-gray-600 hover:bg-gray-500"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              className="snap-center min-w-full transition-transform duration-300 ease-out"
+            >
+              <div className="w-full h-[22rem] min-h-[350px] flex flex-col justify-center px-6 py-8">
+                <div className="space-y-5">
+                  <div className="text-3xl sm:text-4xl font-bold">
+                    {conference.year}
+                  </div>
+                  <div className="text-lg sm:text-xl font-medium">
+                    {conference.title}
+                  </div>
+                  <div className="text-base text-gray-300 leading-relaxed mt-4">
+                    {conference.description}
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
