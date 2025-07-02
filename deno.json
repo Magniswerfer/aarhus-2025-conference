@@ -25,7 +25,8 @@
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "$std/": "https://deno.land/std@0.216.0/",
-    "lucide-preact": "npm:/lucide-preact@0.468.0"
+    "lucide-preact": "npm:/lucide-preact@0.468.0",
+    "@sanity/client": "npm:@sanity/client@6.28.0"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

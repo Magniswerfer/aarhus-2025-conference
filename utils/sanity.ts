@@ -1,5 +1,5 @@
 // utils/sanity.ts
-import { createClient } from "https://esm.sh/@sanity/client@6.12.3";
+import { createClient } from "@sanity/client";
 
 interface SanityConfig {
   projectId: string;
