@@ -8,6 +8,7 @@ import navigation from './navigation'
 import navigationItem from './navigationItem'
 import acceptedWorkshop from './acceptedWorkshop'
 import fileUpload from './fileUpload'
+import acceptedPublication from './acceptedPublication'
 
 
 export const schemaTypes = [
@@ -20,5 +21,6 @@ export const schemaTypes = [
   navigationItem,
   acceptedWorkshop,
   fileUpload,
+  acceptedPublication,
   // Add other schema types here as needed
 ]

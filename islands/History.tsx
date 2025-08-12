@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useEffect, useState, useRef } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { conferences } from "../data/previousConferences.ts";
 
 // Import the CSS (will need to be handled by the bundler)
@@ -12,12 +12,7 @@ const ConferenceHistory = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      if (width >= 1024) {
-        setViewMode("desktop");
-      } else {
-        setViewMode("mobile");
-      }
+      setViewMode(globalThis.innerWidth >= 1024 ? "desktop" : "mobile");
     };
 
     handleResize();
@@ -31,50 +26,51 @@ const ConferenceHistory = () => {
       const descriptionEl = descriptionRefs.current[hoveredIndex];
       if (descriptionEl) {
         // Get the panel and title elements
-        const panel = descriptionEl.closest('.panel');
-        const titleGroup = panel?.querySelector('.title-group');
-        
+        const panel = descriptionEl.closest(".panel");
+        const titleGroup = panel?.querySelector(".title-group");
+
         if (panel && titleGroup) {
           // Calculate available space
           const panelHeight = panel.clientHeight;
           const titleHeight = titleGroup.clientHeight;
           const padding = 40; // Account for padding
-          
+
           // Set max height to use available space
           const availableHeight = panelHeight - titleHeight - padding;
           descriptionEl.style.maxHeight = `${availableHeight}px`;
         } else {
           // Fallback if elements aren't found
-          descriptionEl.style.maxHeight = '10rem';
+          descriptionEl.style.maxHeight = "10rem";
         }
-        
-        descriptionEl.style.opacity = '1';
-        descriptionEl.style.overflow = 'auto';
-        
+
+        descriptionEl.style.opacity = "1";
+        descriptionEl.style.overflow = "auto";
+
         // Wait for the animation to complete
         const timer = setTimeout(() => {
           // Check if content actually overflows
-          const isOverflowing = descriptionEl.scrollHeight > descriptionEl.clientHeight;
-          
+          const isOverflowing =
+            descriptionEl.scrollHeight > descriptionEl.clientHeight;
+
           // Only add class if content overflows
           if (isOverflowing) {
-            descriptionEl.classList.add('description-visible');
+            descriptionEl.classList.add("description-visible");
             // Force a repaint to ensure the scrollbar appears
-            descriptionEl.style.display = 'none';
+            descriptionEl.style.display = "none";
             void descriptionEl.offsetHeight; // Force reflow
-            descriptionEl.style.display = 'block';
+            descriptionEl.style.display = "block";
           } else {
-            descriptionEl.classList.remove('description-visible');
+            descriptionEl.classList.remove("description-visible");
           }
         }, 400); // Match the CSS animation duration
-        
+
         return () => {
           clearTimeout(timer);
           if (descriptionEl) {
-            descriptionEl.classList.remove('description-visible');
-            descriptionEl.style.maxHeight = '';
-            descriptionEl.style.opacity = '';
-            descriptionEl.style.overflow = '';
+            descriptionEl.classList.remove("description-visible");
+            descriptionEl.style.maxHeight = "";
+            descriptionEl.style.opacity = "";
+            descriptionEl.style.overflow = "";
           }
         };
       }
@@ -90,11 +86,13 @@ const ConferenceHistory = () => {
           return (
             <div
               key={conference.year}
+              className={`panel relative cursor-pointer bg-black ${
+                hoveredIndex === index ? "z-10" : ""
+              }`}
               style={{
                 width: baseWidth,
                 transition: "transform var(--duration) var(--easing)",
               }}
-              className={`panel relative cursor-pointer bg-black ${hoveredIndex === index ? 'z-10' : ''}`}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -109,9 +107,9 @@ const ConferenceHistory = () => {
                     </div>
                   </div>
                   <div className="description-wrapper">
-                    <div 
+                    <div
                       className="description text-sm text-gray-300 leading-relaxed"
-                      ref={el => descriptionRefs.current[index] = el}
+                      ref={(el) => descriptionRefs.current[index] = el}
                     >
                       {conference.description}
                     </div>
@@ -128,14 +126,15 @@ const ConferenceHistory = () => {
   const MobileView = () => (
     <div className="relative w-full overflow-hidden">
       {/* Mobile carousel with horizontal scrolling - pure CSS snap */}
-      <div 
+      <div
         className="w-full overflow-x-auto snap-x snap-mandatory scroll-smooth"
         style={{
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'white rgba(255,255,255,0.1)'
+          scrollbarWidth: "thin",
+          scrollbarColor: "white rgba(255,255,255,0.1)",
         }}
       >
-        <style jsx>{`
+        <style jsx>
+          {`
           /* Make scrollbar always visible with gradient steps */
           div {
             -ms-overflow-style: none; /* Hide default scrollbar in IE/Edge */
@@ -175,11 +174,12 @@ const ConferenceHistory = () => {
             );
             border-radius: 4px;
           }
-        `}</style>
-        
+        `}
+        </style>
+
         <div className="flex">
           {conferences.map((conference, index) => (
-            <div 
+            <div
               key={index}
               className="snap-center min-w-full transition-transform duration-300 ease-out"
             >

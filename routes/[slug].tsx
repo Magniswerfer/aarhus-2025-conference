@@ -5,7 +5,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import ContentSection from "../components/ContentSection.tsx";
 import ConferenceDates from "../components/ConferenceDates.tsx";
 import ContributionTypesGrid from "../components/ContributionTypesGrid.tsx";
-import { parseContent, BlockContent } from "../utils/sanityParser.tsx";
+import { BlockContent, parseContent } from "../utils/sanityParser.tsx";
 import { client } from "../utils/sanity.ts";
 
 interface PageData {
@@ -17,8 +17,22 @@ interface PageData {
   slug: string;
   layoutType: "standard" | "twoColumn";
   imagePosition?: "left" | "right";
-  showConferenceDates: boolean;
-  showContributionTypes: boolean;
+
+  showAcceptedPublications: boolean;
+  acceptedPublications?: {
+    sectionTitle: string;
+    csvFile: {
+      asset: {
+        url: string;
+        originalFilename: string;
+      };
+    };
+    publications?: {
+      title: string;
+      author: string;
+      abstract: string;
+    }[];
+  }[];
   error?: string;
 }
 
@@ -38,14 +52,124 @@ export const handler: Handlers<PageData> = {
           "imageUrl": image.asset->url,
           "imageAlt": image.alt,
           content,
-          showConferenceDates,
-          showContributionTypes
+          showAcceptedPublications,
+          acceptedPublications[]{
+            sectionTitle,
+            csvFile{
+              asset->{
+                url,
+                originalFilename
+              }
+            }
+          }
         }`,
-        { slug }
+        { slug },
       );
 
       if (!data) {
         return ctx.renderNotFound();
+      }
+
+      // Process CSV files if accepted publications are enabled
+      let processedPublications = data.acceptedPublications || [];
+      if (data.showAcceptedPublications && data.acceptedPublications?.length) {
+        processedPublications = await Promise.all(
+          data.acceptedPublications.map(async (section: any) => {
+            if (!section.csvFile?.asset?.url) {
+              return { ...section, publications: [] };
+            }
+
+            try {
+              // Fetch CSV content
+              const csvResponse = await fetch(section.csvFile.asset.url);
+              const csvText = await csvResponse.text();
+
+              // Parse CSV with proper comma and line break handling
+              const csvContent = csvText.trim();
+              if (!csvContent) {
+                return { ...section, publications: [] };
+              }
+
+              // Function to parse entire CSV content handling quoted fields with commas and line breaks
+              const parseCSV = (content: string): string[][] => {
+                const rows: string[][] = [];
+                const chars = content.split("");
+                let currentField = "";
+                let currentRow: string[] = [];
+                let inQuotes = false;
+                let i = 0;
+
+                while (i < chars.length) {
+                  const char = chars[i];
+                  const nextChar = chars[i + 1];
+
+                  if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                      // Handle escaped quotes ("")
+                      currentField += '"';
+                      i += 2;
+                    } else {
+                      // Toggle quote state
+                      inQuotes = !inQuotes;
+                      i++;
+                    }
+                  } else if (char === "," && !inQuotes) {
+                    // Field separator found outside quotes
+                    currentRow.push(currentField.trim());
+                    currentField = "";
+                    i++;
+                  } else if ((char === "\n" || char === "\r") && !inQuotes) {
+                    // Row separator found outside quotes
+                    currentRow.push(currentField.trim());
+                    if (currentRow.some((field) => field.length > 0)) {
+                      rows.push(currentRow);
+                    }
+                    currentRow = [];
+                    currentField = "";
+
+                    // Skip \r\n combination
+                    if (char === "\r" && nextChar === "\n") {
+                      i += 2;
+                    } else {
+                      i++;
+                    }
+                  } else {
+                    // Regular character (including line breaks within quotes)
+                    currentField += char;
+                    i++;
+                  }
+                }
+
+                // Add the last field and row
+                currentRow.push(currentField.trim());
+                if (currentRow.some((field) => field.length > 0)) {
+                  rows.push(currentRow);
+                }
+
+                return rows;
+              };
+
+              const rows = parseCSV(csvContent);
+              if (rows.length < 2) {
+                return { ...section, publications: [] };
+              }
+
+              // Skip header row and parse data
+              const publications = rows.slice(1).map((columns) => {
+                return {
+                  title: columns[0] || "",
+                  author: columns[1] || "",
+                  abstract: columns[2] || "",
+                };
+              }).filter((pub) => pub.title && pub.author); // Filter out empty rows
+
+              return { ...section, publications };
+            } catch (error) {
+              console.error("Error processing CSV:", error);
+              return { ...section, publications: [] };
+            }
+          }),
+        );
       }
 
       return ctx.render({
@@ -57,11 +181,14 @@ export const handler: Handlers<PageData> = {
         imageUrl: data.imageUrl,
         imageAlt: data.imageAlt,
         content: Array.isArray(data.content) ? data.content : [],
-        showConferenceDates: !!data.showConferenceDates,
-        showContributionTypes: !!data.showContributionTypes,
+        showAcceptedPublications: !!data.showAcceptedPublications,
+        acceptedPublications: processedPublications,
       });
     } catch (error) {
-      console.error(`Error fetching page with slug '${ctx.params.slug}':`, error);
+      console.error(
+        `Error fetching page with slug '${ctx.params.slug}':`,
+        error,
+      );
 
       return ctx.render({
         title: "Page Not Found",
@@ -69,8 +196,8 @@ export const handler: Handlers<PageData> = {
         slug: ctx.params.slug,
         layoutType: "standard",
         content: [],
-        showConferenceDates: false,
-        showContributionTypes: false,
+        showAcceptedPublications: false,
+        acceptedPublications: [],
         error: "Failed to load page content. Please try again later.",
       });
     }
@@ -86,12 +213,122 @@ export default function GenericPage({ data }: PageProps<PageData>) {
     content,
     layoutType,
     imagePosition,
-    showConferenceDates,
-    showContributionTypes,
+    showAcceptedPublications,
+    acceptedPublications,
     error,
   } = data;
 
   const parsedContent = parseContent(Array.isArray(content) ? content : []);
+
+  // Helper function to format authors with affiliations
+  const formatAuthors = (authorString: string) => {
+    if (!authorString) return null;
+
+    // Split by semicolon to get individual authors
+    const authors = authorString.split(";").map((author) => author.trim());
+
+    return authors.map((author, index) => {
+      // Check if author has affiliations (indicated by colon)
+      if (author.includes(":")) {
+        const [name, affiliationsStr] = author.split(":", 2);
+        const affiliations = affiliationsStr.split(",").map((aff) =>
+          aff.trim()
+        );
+
+        // Format: "Name, Affiliation1, Affiliation2"
+        return (
+          <div key={index}>
+            {`${name.trim()}, ${affiliations.join(", ")}`}
+          </div>
+        );
+      } else {
+        // Just the name if no affiliations
+        return <div key={index}>{author}</div>;
+      }
+    });
+  };
+
+  // Helper function to render accepted publications
+  const renderAcceptedPublications = () => {
+    if (!showAcceptedPublications || !acceptedPublications?.length) {
+      return null;
+    }
+
+    // Generate anchor IDs from section titles
+    const generateAnchorId = (title: string) => {
+      return title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .trim();
+    };
+
+    const sections = acceptedPublications.map((section, index) => ({
+      ...section,
+      anchorId: generateAnchorId(section.sectionTitle),
+    }));
+
+    return (
+      <>
+        {/* Jump to navigation - only show if more than one section */}
+        {sections.length > 1 && (
+          <div class="mb-12 flex flex-wrap items-center gap-3">
+            <h3 class="text-lg font-semibold text-gray-800">Jump to:</h3>
+            {sections.map((section, index) => (
+              <a
+                key={index}
+                href={`#${section.anchorId}`}
+                class="inline-block px-3 py-1 bg-aarhus-red text-white text-xs rounded-full hover:bg-aarhus-red/80 transition-colors shadow-sm"
+              >
+                {section.sectionTitle}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Render sections with anchor links */}
+        {sections.map((section, index) => (
+          <section key={index} class="mb-12">
+            <h2
+              id={section.anchorId}
+              class="text-3xl font-bold text-aarhus-red mb-6"
+            >
+              {section.sectionTitle}
+            </h2>
+            {section.publications && section.publications.length > 0
+              ? (
+                <div class="space-y-6">
+                  {section.publications.map((publication, pubIndex) => (
+                    <div key={pubIndex} class="bg-gray-50 p-6 rounded-lg">
+                      <h3 class="text-xl font-bold text-aarhus-red mb-3">
+                        {publication.title}
+                      </h3>
+                      <div class="text-sm text-gray-700 mb-3 tracking-wide">
+                        {formatAuthors(publication.author)}
+                      </div>
+                      <h4 class="text-lg font-semibold text-gray-800 mb-2 tracking-wide">
+                        Abstract
+                      </h4>
+                      <div class="text-gray-600 leading-relaxed">
+                        {publication.abstract}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+              : (
+                <div class="bg-gray-50 p-6 rounded-lg">
+                  <p class="text-gray-600">
+                    {section.csvFile?.asset?.originalFilename
+                      ? "Loading publications..."
+                      : "No publications file uploaded"}
+                  </p>
+                </div>
+              )}
+          </section>
+        ))}
+      </>
+    );
+  };
 
   return (
     <>
@@ -118,68 +355,37 @@ export default function GenericPage({ data }: PageProps<PageData>) {
       )}
 
       {/* Content section based on layout type */}
-      {layoutType === "standard" ? (
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div class="prose max-w-none">
-            {/* Standard layout content */}
-            <div class="text-lg mb-8 min-h-[60vh]">{parsedContent}</div>
+      {layoutType === "standard"
+        ? (
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="prose max-w-none min-h-[60vh]">
+              {/* Standard layout content */}
+              <div class="text-lg mb-12">{parsedContent}</div>
 
-            {/* Optional components */}
-            {showContributionTypes && (
-              <section class="mb-16">
-                <h2 class="text-3xl font-bold text-aarhus-red mb-6">
-                  Submission Types
-                </h2>
-                <p class="mb-6">
-                  Computing (X) Crisis calls for the following types of
-                  contributions:
-                </p>
-                <ContributionTypesGrid />
-              </section>
-            )}
+              {/* Accepted Publications */}
+              {renderAcceptedPublications()}
+            </div>
+          </div>
+        )
+        : (
+          <div class="flex-1 flex min-h-[60vh]">
+            {/* Two-column layout with image */}
+            <ContentSection
+              content={parsedContent}
+              imagePosition={imagePosition || "right"}
+              imageSrc={imageUrl}
+              imageAlt={imageAlt}
+            />
 
-            {showConferenceDates && (
-              <ConferenceDates
-                displayStyle="grid"
-                class="mb-16"
-                title="Important Dates"
-              />
+            {/* For two-column layout, add components after the ContentSection */}
+            {showAcceptedPublications && (
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                {/* Accepted Publications */}
+                {renderAcceptedPublications()}
+              </div>
             )}
           </div>
-        </div>
-      ) : (
-        <div class="flex-1 flex min-h-[60vh]">
-          {/* Two-column layout with image */}
-          <ContentSection
-            content={parsedContent}
-            imagePosition={imagePosition || "right"}
-            imageSrc={imageUrl}
-            imageAlt={imageAlt}
-          />
-
-          {/* For two-column layout, add components after the ContentSection */}
-          {(showContributionTypes || showConferenceDates) && (
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-              {showContributionTypes && (
-                <section class="mb-16">
-                  <h2 class="text-3xl font-bold text-aarhus-red mb-6">
-                    Submission Types
-                  </h2>
-                  <ContributionTypesGrid />
-                </section>
-              )}
-
-              {showConferenceDates && (
-                <ConferenceDates
-                  displayStyle="grid"
-                  class="mb-16"
-                  title="Important Dates"
-                />
-              )}
-            </div>
-          )}
-        </div>
-      )}
+        )}
     </>
   );
 }

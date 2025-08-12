@@ -7,6 +7,7 @@ interface DropdownItem {
 }
 
 interface NavigationItem {
+  id: string; // Add unique ID for React keys
   path: string;
   label: string;
   hasDropdown: boolean;
@@ -16,9 +17,10 @@ interface NavigationItem {
 
 // Static fallback navigation in case Sanity data fetch fails
 export const fallbackNavigation: NavigationItem[] = [
-  { path: "/", label: "HOME", hasDropdown: false, order: 1 },
-  { path: "/programme", label: "PROGRAMME", hasDropdown: false, order: 2 },
+  { id: "fallback-home", path: "/", label: "HOME", hasDropdown: false, order: 1 },
+  { id: "fallback-programme", path: "/programme", label: "PROGRAMME", hasDropdown: false, order: 2 },
   {
+    id: "fallback-call-for-contributions",
     path: "/call-for-contributions",
     label: "CALL FOR CONTRIBUTIONS",
     hasDropdown: true,
@@ -39,12 +41,13 @@ export const fallbackNavigation: NavigationItem[] = [
     ],
   },
   {
+    id: "fallback-past-conferences",
     path: "/past-conferences",
     label: "PAST CONFERENCES",
     hasDropdown: false,
     order: 4,
   },
-  { path: "/organisers", label: "ORGANISERS", hasDropdown: false, order: 5 },
+  { id: "fallback-organisers", path: "/organisers", label: "ORGANISERS", hasDropdown: false, order: 5 },
 ];
 
 // Interfaces for Sanity response
@@ -105,6 +108,7 @@ function transformNavigationData(data: any): NavigationItem[] {
   const transformedItems = data.items.map((item: SanityNavigationItem, index: number) => {
     if (item.type === 'single') {
       return {
+        id: `nav-single-${index}-${item.title?.toLowerCase().replace(/\s+/g, '-') || 'untitled'}`,
         path: item.path || '/',
         label: item.title || 'Untitled',
         hasDropdown: false,
@@ -113,6 +117,7 @@ function transformNavigationData(data: any): NavigationItem[] {
     } else if (item.type === 'group') {
       const groupPath = item.groupLink?.path || '#';
       return {
+        id: `nav-group-${index}-${item.groupTitle?.toLowerCase().replace(/\s+/g, '-') || 'untitled'}`,
         path: groupPath,
         label: item.groupTitle || 'Untitled Group',
         hasDropdown: true,
@@ -145,13 +150,32 @@ export async function getNavigationItems(): Promise<NavigationItem[]> {
     const pagesData = await client.fetch(`
       *[_type == "page" && showInNavigation == true] | order(navigationOrder asc) {
         title,
-        "slug": slug.current,
-        navigationOrder
+        type,
+        linkType,
+        order,
+        pageReference->{
+          _type,
+          "slug": slug.current
+        },
+        customPath,
+        dropdownItems[]->{
+          _id,
+          title,
+          linkType,
+          pageReference->{
+            _type,
+            "slug": slug.current
+          },
+          customPath
+        }
       }
     `);
     
+    console.log('Raw navigation data from Sanity:', data);
+    
     // Format the dynamic links
-    const dynamicLinks = pagesData.map((page: any) => ({
+    const dynamicLinks = pagesData.map((page: any, index: number) => ({
+      id: `dynamic-${index}-${page.slug || page.title?.toLowerCase().replace(/\s+/g, '-') || 'untitled'}`,
       path: `/${page.slug}`,
       label: page.title.toUpperCase(),
       hasDropdown: false,

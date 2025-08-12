@@ -31,19 +31,6 @@ export default defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
-      name: 'layoutType',
-      title: 'Layout Type',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Standard Full Width', value: 'standard'},
-          {title: 'Two Column with Image', value: 'twoColumn'}
-        ],
-      },
-      initialValue: 'standard',
-      validation: (Rule) => Rule.required()
-    }),
-    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',
@@ -104,6 +91,19 @@ export default defineType({
       ]
     }),
     defineField({
+      name: 'layoutType',
+      title: 'Layout Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Standard Full Width', value: 'standard'},
+          {title: 'Two Column with Image', value: 'twoColumn'}
+        ],
+      },
+      initialValue: 'standard',
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
       name: 'imagePosition',
       title: 'Image Position',
       type: 'string',
@@ -117,33 +117,50 @@ export default defineType({
       hidden: ({document}) => document?.layoutType !== 'twoColumn'
     }),
     defineField({
-      name: 'showConferenceDates',
-      title: 'Show Conference Dates',
+      name: 'showAcceptedPublications',
+      title: 'Show Accepted Publications',
       type: 'boolean',
-      description: 'Include a Conference Dates section on this page',
+      description: 'Include Accepted Publications sections on this page',
       initialValue: false
     }),
     defineField({
-      name: 'showContributionTypes',
-      title: 'Show Contribution Types Grid',
-      type: 'boolean',
-      description: 'Include a Contribution Types Grid on this page',
-      initialValue: false
-    }),
-    defineField({
-      name: 'showInNavigation',
-      title: 'Show in Navigation',
-      type: 'boolean',
-      description: 'Whether to include this page in the main navigation',
-      initialValue: false
-    }),
-    defineField({
-      name: 'navigationOrder',
-      title: 'Navigation Order',
-      type: 'number',
-      description: 'Order in which to display in navigation (lower numbers appear first)',
-      hidden: ({document}) => !document?.showInNavigation
+      name: 'acceptedPublications',
+      title: 'Accepted Publications',
+      type: 'array',
+      description: 'Upload CSV files with accepted publications. Each CSV should have headers: Title, Author, Abstract',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'sectionTitle',
+              title: 'Section Title (H2)',
+              type: 'string',
+              description: 'Header text that will appear above this publication list',
+              validation: (Rule) => Rule.required()
+            },
+            {
+              name: 'csvFile',
+              title: 'CSV File',
+              type: 'file',
+              description: 'CSV FORMAT: Headers must be "Title, Author, Abstract". AUTHOR FIELD: Use semicolons (;) to separate multiple authors. For affiliations, use "Name: Affiliation1, Affiliation2". EXAMPLES: Single author: "John Smith: University of Copenhagen" | Multiple authors: "John Smith: University of Copenhagen; Jane Doe: MIT" | The CSV supports line breaks within quoted fields for multi-line abstracts.',
+              options: {
+                accept: '.csv'
+              },
+              validation: (Rule) => Rule.required()
+            }
+          ],
+          preview: {
+            select: {
+              title: 'sectionTitle',
+              subtitle: 'csvFile.asset.originalFilename'
+            }
+          }
+        }
+      ],
+      hidden: ({document}) => !document?.showAcceptedPublications
     })
+
   ],
   preview: {
     select: {

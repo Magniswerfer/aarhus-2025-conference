@@ -11,6 +11,7 @@ export default function App({ Component, url, state }: PageProps) {
 
     const sanityItems = state.navigationItems as any[];
     const mappedItems = sanityItems.map((item) => ({
+      id: item.id || item._id, // Include unique ID
       path: item.slug?.current ? `/${item.slug.current}` : item.path || "/",
       label: item.title || item.label,
       hasDropdown: item.hasDropdown ?? false,
@@ -41,16 +42,16 @@ export default function App({ Component, url, state }: PageProps) {
         />
       </head>
       <body>
-        {shouldUseLayout ? (
-          <Layout
-            navigationItems={navigationItems}
-            currentPath={url.pathname}  // pass currentPath here
-          >
-            <Component />
-          </Layout>
-        ) : (
-          <Component />
-        )}
+        {shouldUseLayout
+          ? (
+            <Layout
+              navigationItems={navigationItems}
+              currentPath={url.pathname} // pass currentPath here
+            >
+              <Component />
+            </Layout>
+          )
+          : <Component />}
       </body>
     </html>
   );
