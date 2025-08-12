@@ -16,6 +16,8 @@ import * as $call_for_contributions_doctoral_consortium from "./routes/call-for-
 import * as $call_for_contributions_papers from "./routes/call-for-contributions/papers.tsx";
 import * as $call_for_contributions_work_in_progress from "./routes/call-for-contributions/work-in-progress.tsx";
 import * as $call_for_contributions_workshops from "./routes/call-for-contributions/workshops.tsx";
+import * as $files from "./routes/files.tsx";
+import * as $files_slug_ from "./routes/files/[slug].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $keynote_speakers from "./routes/keynote-speakers.tsx";
 import * as $organisers from "./routes/organisers.tsx";
@@ -52,6 +54,8 @@ const manifest = {
       $call_for_contributions_work_in_progress,
     "./routes/call-for-contributions/workshops.tsx":
       $call_for_contributions_workshops,
+    "./routes/files.tsx": $files,
+    "./routes/files/[slug].tsx": $files_slug_,
     "./routes/index.tsx": $index,
     "./routes/keynote-speakers.tsx": $keynote_speakers,
     "./routes/organisers.tsx": $organisers,
